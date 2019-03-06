@@ -1,3 +1,4 @@
+import 'package:currency_converter/body.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -21,8 +22,6 @@ class Home extends StatelessWidget {
           title: Text("Currency Converter"),
           centerTitle: true,
         ),
-        body: Center(
-          child: Text("Currency Converter"),
-        ),
+        body: Body(),
       ));
 }
