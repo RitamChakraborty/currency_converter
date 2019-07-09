@@ -7,6 +7,6 @@ A web version of this app is made in [web branch](https://github.com/RitamChakra
 
 Checkout the Website [here](https://ritamchakraborty.github.io/currency_converter/#/)
 
-<div style="background-color: blue; display: flex; justify-content: center; align-items: center; width: 100vw;">
-<img src="pictures/screenshot.png" height="480" width="270">
-</div> 
+<p align="center">
+    <img src="pictures/screenshot.png" height="480" width="270">
+</p>
