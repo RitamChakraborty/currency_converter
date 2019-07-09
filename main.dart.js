@@ -19111,7 +19111,7 @@ u=t.a.c
 t.r=u[0]
 t.x=u[1]
 t.Q=""},
-O:function(a){var u,t=this,s=null,r=t.SA(a,t.d,t.y,"Enter amount to be converted","Amount"),q=t.zR(a,0,t.a.c,"Select entered currency",t.r.a),p=t.zR(a,1,t.a.c,"Select currecy to be converted with",t.x.a),o=t.f,n=K.am(a,!1).e,m=K.am(a,!1).dx,l=K.am(a,!1).r
+O:function(a){var u,t=this,s=null,r=t.SA(a,t.d,t.y,"Enter amount to be converted","Amount"),q=t.zR(a,0,t.a.c,"Select entered currency",t.r.a),p=t.zR(a,1,t.a.c,"Select currency to be converted with",t.x.a),o=t.f,n=K.am(a,!1).e,m=K.am(a,!1).dx,l=K.am(a,!1).r
 m=B.Yk(L.e7("Convert",s,s,s,A.fY(s,s,s,s,s,s,s,s,s,s,16,s,s,s,s,!0,s,s,s,s,s,s),s),C.a8,n,s,s,s,5,s,s,s,s,s,s,s,t.gIq(),o,new S.dw(new Y.cS(l,1,C.I)),m,C.v,s)
 l=F.cL(a,!1).a
 n=t.qt(a)
