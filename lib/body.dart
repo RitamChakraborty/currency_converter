@@ -1,18 +1,153 @@
 import 'package:flutter/material.dart';
 
+import 'data/currency.dart';
+
 class Body extends StatefulWidget {
   @override
   _BodyState createState() => _BodyState();
 
-  final List<String> _currencies = ["Rupees", "Dollar", "Pound", "Euro"];
+  final List<Currency> _currencies = [
+    Currency(
+      name: "Canadian Dollar",
+      symbol: "CAD",
+    ),
+    Currency(
+      name: "Hong Kong Dollar",
+      symbol: "HKD",
+    ),
+    Currency(
+      name: "Icelandic Krona",
+      symbol: "ISK",
+    ),
+    Currency(
+      name: "Philippines Peso",
+      symbol: "PHP",
+    ),
+    Currency(
+      name: "Danish Krona",
+      symbol: "DKK",
+    ),
+    Currency(
+      name: "Hungerian Forint",
+      symbol: "HUF",
+    ),
+    Currency(
+      name: "Czech Koruna",
+      symbol: "CZK",
+    ),
+    Currency(
+      name: "Pound Sterling",
+      symbol: "GBP",
+    ),
+    Currency(
+      name: "Romanian Leu",
+      symbol: "RON",
+    ),
+    Currency(
+      name: "Swedish Krona",
+      symbol: "SEK",
+    ),
+    Currency(
+      name: "Indonesian Rupiah",
+      symbol: "IDR",
+    ),
+    Currency(
+      name: "Indian Rupee",
+      symbol: "INR",
+    ),
+    Currency(
+      name: "Brazilian Real",
+      symbol: "BRL",
+    ),
+    Currency(
+      name: "Russian Rubel",
+      symbol: "RUB",
+    ),
+    Currency(
+      name: "Kroatian Kuna",
+      symbol: "HRK",
+    ),
+    Currency(
+      name: "Japanese Yen",
+      symbol: "JPY",
+    ),
+    Currency(
+      name: "Thai Baht",
+      symbol: "THB",
+    ),
+    Currency(
+      name: "Swiss Franc",
+      symbol: "CHF",
+    ),
+    Currency(
+      name: "Euro",
+      symbol: "EUR",
+    ),
+    Currency(
+      name: "Malaysian Ringgit",
+      symbol: "MYR",
+    ),
+    Currency(
+      name: "Bulgerian Lev",
+      symbol: "BGN",
+    ),
+    Currency(
+      name: "Turkish Lira",
+      symbol: "TRY",
+    ),
+    Currency(
+      name: "Chinese Yuan",
+      symbol: "CNY",
+    ),
+    Currency(
+      name: "Norwegian Krona",
+      symbol: "NOK",
+    ),
+    Currency(
+      name: "New Zeland Dollar",
+      symbol: "NZD",
+    ),
+    Currency(
+      name: "South African Rand",
+      symbol: "ZAR",
+    ),
+    Currency(
+      name: "US Dollar",
+      symbol: "USD",
+    ),
+    Currency(
+      name: "Mexican Peso",
+      symbol: "MXN",
+    ),
+    Currency(
+      name: "Singapore Dollar",
+      symbol: "SGD",
+    ),
+    Currency(
+      name: "Australian Dollar",
+      symbol: "AUD",
+    ),
+    Currency(
+      name: "Israeli New Shekel",
+      symbol: "ILS",
+    ),
+    Currency(
+      name: "South Korean Won",
+      symbol: "KRW",
+    ),
+    Currency(
+      name: "Poland Zloty",
+      symbol: "PLN",
+    ),
+  ];
 }
 
 class _BodyState extends State<Body> {
   TextEditingController _textEditingController;
   final _minPadding = EdgeInsets.all(8.0);
   final _maxPadding = EdgeInsets.all(17.0);
-  String _enteredCurrency;
-  String _convertedCurrency;
+  Currency _enteredCurrency;
+  Currency _convertedCurrency;
   var _formKey = GlobalKey<FormState>();
   double _finalValue;
   String _resultString;
@@ -22,60 +157,11 @@ class _BodyState extends State<Body> {
     setState(() {
       if (_formKey.currentState.validate()) {
         amount = double.parse(_textEditingController.text);
-
-        if (_enteredCurrency == widget._currencies[0] &&
-            _convertedCurrency == widget._currencies[0]) {
-          _finalValue = amount;
-        } else if (_enteredCurrency == widget._currencies[0] &&
-            _convertedCurrency == widget._currencies[1]) {
-          _finalValue = amount * 0.014;
-        } else if (_enteredCurrency == widget._currencies[0] &&
-            _convertedCurrency == widget._currencies[2]) {
-          _finalValue = amount * 0.011;
-        } else if (_enteredCurrency == widget._currencies[0] &&
-            _convertedCurrency == widget._currencies[3]) {
-          _finalValue = amount * 0.013;
-        } else if (_enteredCurrency == widget._currencies[1] &&
-            _convertedCurrency == widget._currencies[1]) {
-          _finalValue = amount;
-        } else if (_enteredCurrency == widget._currencies[1] &&
-            _convertedCurrency == widget._currencies[0]) {
-          _finalValue = amount * 70.29;
-        } else if (_enteredCurrency == widget._currencies[1] &&
-            _convertedCurrency == widget._currencies[2]) {
-          _finalValue = amount * 0.76;
-        } else if (_enteredCurrency == widget._currencies[1] &&
-            _convertedCurrency == widget._currencies[3]) {
-          _finalValue = amount * 0.88;
-        } else if (_enteredCurrency == widget._currencies[2] &&
-            _convertedCurrency == widget._currencies[2]) {
-          _finalValue = amount;
-        } else if (_enteredCurrency == widget._currencies[2] &&
-            _convertedCurrency == widget._currencies[0]) {
-          _finalValue = amount * 92.38;
-        } else if (_enteredCurrency == widget._currencies[2] &&
-            _convertedCurrency == widget._currencies[1]) {
-          _finalValue = amount * 1.31;
-        } else if (_enteredCurrency == widget._currencies[2] &&
-            _convertedCurrency == widget._currencies[3]) {
-          _finalValue = amount * 1.16;
-        } else if (_enteredCurrency == widget._currencies[3] &&
-            _convertedCurrency == widget._currencies[3]) {
-          _finalValue = amount;
-        } else if (_enteredCurrency == widget._currencies[3] &&
-            _convertedCurrency == widget._currencies[0]) {
-          _finalValue = amount * 79.48;
-        } else if (_enteredCurrency == widget._currencies[3] &&
-            _convertedCurrency == widget._currencies[1]) {
-          _finalValue = amount * 1.13;
-        } else if (_enteredCurrency == widget._currencies[3] &&
-            _convertedCurrency == widget._currencies[2]) {
-          _finalValue = amount * 0.86;
-        }
+        // Calculate amount
       }
 
       _resultString =
-          "$amount in $_enteredCurrency = $_finalValue in $_convertedCurrency";
+          "$amount in ${_enteredCurrency.name} = $_finalValue in ${_convertedCurrency.name}";
     });
   }
 
@@ -111,7 +197,7 @@ class _BodyState extends State<Body> {
               customRow(
                   text: "Select entered currency",
                   list: widget._currencies,
-                  value: _enteredCurrency,
+                  value: _enteredCurrency.name,
                   key: 0,
                   context: context),
               SizedBox(
@@ -120,7 +206,7 @@ class _BodyState extends State<Body> {
               customRow(
                   text: "Select currecy to be converted with",
                   list: widget._currencies,
-                  value: _convertedCurrency,
+                  value: _convertedCurrency.name,
                   key: 1,
                   context: context),
               SizedBox(
@@ -187,7 +273,7 @@ class _BodyState extends State<Body> {
 
   Widget customRow({
     @required String text,
-    @required List<String> list,
+    @required List<Currency> list,
     @required String value,
     @required int key,
     @required BuildContext context,
@@ -204,7 +290,7 @@ class _BodyState extends State<Body> {
     final textContainer = Expanded(
         child: Container(
             padding: _minPadding,
-            height: 56,
+            height: 60,
             decoration: boxDecoration(context: context),
             child: Center(
               child: textWidget,
@@ -225,7 +311,7 @@ class _BodyState extends State<Body> {
   }
 
   Widget dropdownMenuButton(
-          {@required List<String> list,
+          {@required List<Currency> list,
           @required String value,
           @required int key,
           @required BuildContext context}) =>
@@ -234,10 +320,10 @@ class _BodyState extends State<Body> {
         padding: EdgeInsets.symmetric(horizontal: 8.0),
         child: DropdownButton<String>(
             items: list
-                .map((String dropdownItem) => DropdownMenuItem<String>(
-                      value: dropdownItem,
+                .map((Currency dropdownItem) => DropdownMenuItem<String>(
+                      value: dropdownItem.name,
                       child: Text(
-                        dropdownItem,
+                        dropdownItem.name,
                         style: TextStyle(
                             color: Theme.of(context).primaryColorDark),
                       ),
@@ -247,13 +333,22 @@ class _BodyState extends State<Body> {
             onChanged: (String dropdownItem) {
               setState(() {
                 if (key == 0) {
-                  _enteredCurrency = dropdownItem;
+                  _enteredCurrency = findItem(dropdownItem);
                 } else if (key == 1) {
-                  _convertedCurrency = dropdownItem;
+                  _convertedCurrency = findItem(dropdownItem);
                 }
               });
             }),
       );
+
+  Currency findItem(String item) {
+    for (Currency i in widget._currencies) {
+      if (i.name == item) {
+        return i;
+      }
+    }
+    return widget._currencies[0];
+  }
 
   Widget convertButton({@required BuildContext context}) => MaterialButton(
         padding: _maxPadding,
