@@ -1,4 +1,8 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import 'data/currency.dart';
 
@@ -151,17 +155,33 @@ class _BodyState extends State<Body> {
   var _formKey = GlobalKey<FormState>();
   double _finalValue;
   String _resultString;
+  String _api = "https://api.exchangeratesapi.io/latest?base=";
+  double _conversionRate;
+
+  Future<double> getCurrencyValues(
+      String base, String converted, double amount) async {
+    var data = await http.get(_api + base);
+    var jsonData = json.decode(data.body);
+    _conversionRate = jsonData['rates'][converted];
+
+    setState(() {
+      _resultString = _conversionRate == 0.0
+          ? "Loading..."
+          : (amount * _conversionRate).toString();
+    });
+
+    return _conversionRate;
+  }
 
   void _handleConvertButtonPressed() {
     double amount;
     setState(() {
       if (_formKey.currentState.validate()) {
         amount = double.parse(_textEditingController.text);
-        // Calculate amount
-      }
 
-      _resultString =
-          "$amount in ${_enteredCurrency.name} = $_finalValue in ${_convertedCurrency.name}";
+        getCurrencyValues(
+            _enteredCurrency.symbol, _convertedCurrency.symbol, amount);
+      }
     });
   }
 
