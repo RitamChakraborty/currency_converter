@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-# flutter run -d <your device id> --pid-file /tmp/flutter.pid
-
-while true
-do
-    find lib/ -name '*.dart' | \
-        entr -d -p kill -USR1 $(cat /tmp/flutter.pid)
-done

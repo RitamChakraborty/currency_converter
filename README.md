@@ -1,12 +1,16 @@
-# Currency Converter
+# currency_converter
 
-A currency converter app in Flutter.
-Using [openrates.io](http://www.openrates.io/) api to get the latest currency values.
+A new Flutter project.
 
-A web version of this app is made in [web branch](https://github.com/RitamChakraborty/currency_converter/tree/web)
+## Getting Started
 
-Checkout the Website [here](https://ritamchakraborty.github.io/currency_converter/#/)
+This project is a starting point for a Flutter application.
 
-<p align="center">
-    <img src="pictures/screenshot.png" height="480" width="270">
-</p>
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+
+For help getting started with Flutter, view our
+[online documentation](https://flutter.dev/docs), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.

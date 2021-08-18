@@ -147,27 +147,27 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  TextEditingController _textEditingController;
+  TextEditingController? _textEditingController;
   final _minPadding = EdgeInsets.all(8.0);
   final _maxPadding = EdgeInsets.all(17.0);
-  Currency _enteredCurrency;
-  Currency _convertedCurrency;
+  late Currency _enteredCurrency;
+  late Currency _convertedCurrency;
   var _formKey = GlobalKey<FormState>();
-  double _finalValue;
-  String _resultString;
+  double? _finalValue;
+  late String _resultString;
   String _api = "https://api.exchangeratesapi.io/latest?base=";
-  double _conversionRate;
+  double? _conversionRate;
 
-  Future<double> getCurrencyValues(
+  Future<double?> getCurrencyValues(
       String base, String converted, double amount) async {
-    var data = await http.get(_api + base);
+    var data = await http.get(Uri.parse(_api + base));
     var jsonData = json.decode(data.body);
     _conversionRate = jsonData['rates'][converted];
 
     setState(() {
       _resultString = _conversionRate == 0.0
           ? "Loading..."
-          : (amount * _conversionRate).toString();
+          : (amount * _conversionRate!).toString();
     });
 
     return _conversionRate;
@@ -176,8 +176,8 @@ class _BodyState extends State<Body> {
   void _handleConvertButtonPressed() {
     double amount;
     setState(() {
-      if (_formKey.currentState.validate()) {
-        amount = double.parse(_textEditingController.text);
+      if (_formKey.currentState!.validate()) {
+        amount = double.parse(_textEditingController!.text);
 
         getCurrencyValues(
             _enteredCurrency.symbol, _convertedCurrency.symbol, amount);
@@ -188,6 +188,8 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     super.initState();
+    widget._currencies
+        .sort((Currency a, Currency b) => a.name.compareTo(b.name));
     _textEditingController = TextEditingController();
     _enteredCurrency = widget._currencies[0];
     _convertedCurrency = widget._currencies[1];
@@ -243,11 +245,11 @@ class _BodyState extends State<Body> {
       );
 
   Widget textFormField(
-      {@required String labelText,
-      @required String hintText,
-      @required TextEditingController controller,
-      @required Key formKey,
-      @required BuildContext context}) {
+      {required String labelText,
+      required String hintText,
+      required TextEditingController? controller,
+      required Key formKey,
+      required BuildContext context}) {
     final labelStyle =
         TextStyle(color: Theme.of(context).primaryColorDark, fontSize: 16.0);
 
@@ -274,9 +276,11 @@ class _BodyState extends State<Body> {
             hintStyle: hintStyle,
             border: outlineInputBorder),
         validator: (value) {
-          if (value.isEmpty) {
+          if (value!.isEmpty) {
             return "Please enter some amount";
           }
+
+          return null;
         },
         controller: controller,
         keyboardType: TextInputType.number,
@@ -284,7 +288,7 @@ class _BodyState extends State<Body> {
     );
   }
 
-  Decoration boxDecoration({@required BuildContext context}) => BoxDecoration(
+  Decoration boxDecoration({required BuildContext context}) => BoxDecoration(
       borderRadius: BorderRadius.circular(5.0),
       border: Border.all(
           color: Theme.of(context).primaryColorDark,
@@ -292,11 +296,11 @@ class _BodyState extends State<Body> {
           style: BorderStyle.solid));
 
   Widget customRow({
-    @required String text,
-    @required List<Currency> list,
-    @required String value,
-    @required int key,
-    @required BuildContext context,
+    required String text,
+    required List<Currency> list,
+    required String value,
+    required int key,
+    required BuildContext context,
   }) {
     final textWidget = Text(
       text,
@@ -331,10 +335,10 @@ class _BodyState extends State<Body> {
   }
 
   Widget dropdownMenuButton(
-          {@required List<Currency> list,
-          @required String value,
-          @required int key,
-          @required BuildContext context}) =>
+          {required List<Currency> list,
+          required String value,
+          required int key,
+          required BuildContext context}) =>
       Container(
         decoration: boxDecoration(context: context),
         padding: EdgeInsets.symmetric(horizontal: 8.0),
@@ -350,7 +354,7 @@ class _BodyState extends State<Body> {
                     ))
                 .toList(),
             value: value,
-            onChanged: (String dropdownItem) {
+            onChanged: (String? dropdownItem) {
               setState(() {
                 if (key == 0) {
                   _enteredCurrency = findItem(dropdownItem);
@@ -361,7 +365,7 @@ class _BodyState extends State<Body> {
             }),
       );
 
-  Currency findItem(String item) {
+  Currency findItem(String? item) {
     for (Currency i in widget._currencies) {
       if (i.name == item) {
         return i;
@@ -370,7 +374,7 @@ class _BodyState extends State<Body> {
     return widget._currencies[0];
   }
 
-  Widget convertButton({@required BuildContext context}) => MaterialButton(
+  Widget convertButton({required BuildContext context}) => MaterialButton(
         padding: _maxPadding,
         elevation: 5.0,
         color: Theme.of(context).primaryColorDark,
@@ -385,7 +389,7 @@ class _BodyState extends State<Body> {
         onPressed: _handleConvertButtonPressed,
       );
 
-  Widget resultBox({@required BuildContext context}) => Container(
+  Widget resultBox({required BuildContext context}) => Container(
         width: MediaQuery.of(context).size.width,
         decoration: boxDecoration(context: context),
         padding: _maxPadding,

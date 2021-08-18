@@ -1,10 +1,8 @@
-import 'package:meta/meta.dart';
-
 class Currency {
   final String _name;
   final String _symbol;
 
-  const Currency({@required String name, @required String symbol})
+  const Currency({required String name, required String symbol})
       : this._name = name,
         this._symbol = symbol,
         assert(name != null),
