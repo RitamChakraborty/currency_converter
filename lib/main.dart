@@ -1,27 +1,22 @@
-import 'package:currency_converter/body.dart';
+import 'package:currency_converter/views/home.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) => MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: Home(),
-      );
+void main() {
+  runApp(MyApp());
 }
 
-class Home extends StatelessWidget {
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) => Material(
-          child: Scaffold(
-        appBar: AppBar(
-          title: Text("Currency Converter"),
-          centerTitle: true,
-        ),
-        body: Body(),
-      ));
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: "Currency Converter",
+      theme: ThemeData(
+        primaryColor: Colors.red,
+        accentColor: Colors.cyanAccent,
+      ),
+      home: Home(),
+    );
+  }
 }
