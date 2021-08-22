@@ -39,9 +39,9 @@ class CurrencyUtil {
 
   static List<String> get currencies => _allCurrencies.values.toList();
 
-  static String? currencyFromCode(String code) => _allCurrencies[code];
+  static String? currencyFromCode(String? code) => _allCurrencies[code];
 
-  static String? codeFromCurrency(String currency) {
+  static String? codeFromCurrency(String? currency) {
     for (String code in _allCurrencies.keys) {
       if (_allCurrencies[code] == currency) {
         return code;
