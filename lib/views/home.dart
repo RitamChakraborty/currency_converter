@@ -11,8 +11,14 @@ class Home extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            CurrencyWidget(color: Theme.of(context).primaryColor),
-            CurrencyWidget(color: Theme.of(context).accentColor),
+            CurrencyWidget(
+              color: Theme.of(context).primaryColor,
+              textColor: Theme.of(context).accentColor,
+            ),
+            CurrencyWidget(
+              color: Theme.of(context).accentColor,
+              textColor: Theme.of(context).primaryColor,
+            ),
           ],
         ),
       ),
