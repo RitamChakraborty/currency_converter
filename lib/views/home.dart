@@ -1,3 +1,4 @@
+import 'package:currency_converter/views/widgets/currency_widget.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
@@ -10,16 +11,8 @@ class Home extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            Expanded(
-              child: Container(
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
-            Expanded(
-              child: Container(
-                color: Theme.of(context).accentColor,
-              ),
-            ),
+            CurrencyWidget(color: Theme.of(context).primaryColor),
+            CurrencyWidget(color: Theme.of(context).accentColor),
           ],
         ),
       ),
