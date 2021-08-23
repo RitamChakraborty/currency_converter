@@ -5,12 +5,23 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Currency Converter"),
+    return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: Container(
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+            Expanded(
+              child: Container(
+                color: Theme.of(context).accentColor,
+              ),
+            ),
+          ],
         ),
-        body: Container(),
       ),
     );
   }
