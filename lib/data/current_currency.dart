@@ -1,0 +1,1 @@
+enum CurrentCurrency { ONE, TWO }

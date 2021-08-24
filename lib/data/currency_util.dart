@@ -1,3 +1,5 @@
+import 'package:currency_converter/data/currency_enum.dart';
+
 class CurrencyUtil {
   static Map<String, String> _allCurrencies = {
     "AUD": "Australian Dollar",
@@ -45,6 +47,16 @@ class CurrencyUtil {
     for (String code in _allCurrencies.keys) {
       if (_allCurrencies[code] == currency) {
         return code;
+      }
+    }
+
+    return null;
+  }
+
+  static CurrencyEnum? currencyEnumFromCode(String? code) {
+    for (CurrencyEnum currencyEnum in CurrencyEnum.values) {
+      if (currencyEnum.code == code) {
+        return currencyEnum;
       }
     }
 

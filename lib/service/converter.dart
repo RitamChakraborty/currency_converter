@@ -1,13 +1,13 @@
 import 'package:currency_converter/data/currency_enum.dart';
+import 'package:currency_converter/data/currency_util.dart';
+import 'package:currency_converter/data/current_currency.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 abstract class ConverterState {}
 
 class InitialState extends ConverterState {}
 
-class CurrencyOneChangeState extends ConverterState {}
-
-class CurrencyTwoChangeState extends ConverterState {}
+class CurrencyChangedState extends ConverterState {}
 
 class Converter extends HydratedCubit<ConverterState> {
   Converter() : super(InitialState());
@@ -19,23 +19,49 @@ class Converter extends HydratedCubit<ConverterState> {
 
   CurrencyEnum? get currencyTwo => _currencyTwo;
 
-  void changeCurrencyOne(CurrencyEnum? currencyEnum) {
-    _currencyOne = currencyEnum;
-    emit(CurrencyOneChangeState());
-  }
+  void changeCurrency({
+    required CurrencyEnum? currency,
+    required CurrentCurrency currentCurrency,
+  }) {
+    switch (currentCurrency) {
+      case CurrentCurrency.ONE:
+        {
+          _currencyOne = currency;
+          break;
+        }
+      case CurrentCurrency.TWO:
+        {
+          _currencyTwo = currency;
+          break;
+        }
+    }
 
-  void changeCurrencyTwo(CurrencyEnum? currencyEnum) {
-    _currencyTwo = currencyEnum;
-    emit(CurrencyTwoChangeState());
+    print(currency);
+    emit(CurrencyChangedState());
   }
 
   @override
   ConverterState? fromJson(Map<String, dynamic> json) {
-    throw UnimplementedError();
+    String? currencyOneCode = json['currency_one'];
+    String? currencyTwoCode = json['currency_two'];
+    _currencyOne = CurrencyUtil.currencyEnumFromCode(currencyOneCode);
+    _currencyTwo = CurrencyUtil.currencyEnumFromCode(currencyTwoCode);
+
+    return InitialState();
   }
 
   @override
   Map<String, dynamic>? toJson(ConverterState state) {
-    throw UnimplementedError();
+    if (_currencyOne != null && _currencyTwo != null) {
+      return {
+        'currency_one': _currencyOne!.code,
+        'currency_two': _currencyTwo!.code,
+      };
+    }
+
+    return {
+      'currency_one': CurrencyEnum.USD.code,
+      'currency_two': CurrencyEnum.INR.code,
+    };
   }
 }

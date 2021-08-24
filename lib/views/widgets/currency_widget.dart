@@ -1,16 +1,20 @@
+import 'package:currency_converter/data/current_currency.dart';
 import 'package:currency_converter/views/currency_selector.dart';
 import 'package:flutter/material.dart';
 
 class CurrencyWidget extends StatelessWidget {
   final Color _color;
   final Color _textColor;
+  final CurrentCurrency _currentCurrency;
 
   const CurrencyWidget({
     required Color color,
     required Color textColor,
+    required CurrentCurrency currentCurrency,
     Key? key,
   })  : this._color = color,
         this._textColor = textColor,
+        this._currentCurrency = currentCurrency,
         super(key: key);
 
   @override
@@ -22,6 +26,7 @@ class CurrencyWidget extends StatelessWidget {
             builder: (_) => CurrencySelector(
               color: _color,
               textColor: _textColor,
+              currentCurrency: _currentCurrency,
             ),
           ),
         );
