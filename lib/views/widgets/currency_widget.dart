@@ -23,55 +23,65 @@ class CurrencyWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Converter converter = BlocProvider.of<Converter>(context);
 
-    final Widget currencyText = TextButton(
-      onPressed: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => CurrencySelector(
-              color: _color,
-              textColor: _textColor,
-              currentCurrency: _currentCurrency,
+    Widget currencyText({required String? currency}) => TextButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => CurrencySelector(
+                  color: _color,
+                  textColor: _textColor,
+                  currentCurrency: _currentCurrency,
+                ),
+              ),
+            );
+          },
+          child: Text(
+            currency ?? "NULL",
+            style: TextStyle(
+              color: _textColor,
+            ),
+          ),
+        );
+
+    Widget amountText({required double amount}) => Text(
+          "${amount.toStringAsFixed(2)}",
+          style: TextStyle(
+            color: _textColor,
+          ),
+        );
+
+    Text currencyCodeText({required String? code}) => Text(
+          code ?? "NULL",
+          style: TextStyle(
+            color: _textColor,
+          ),
+        );
+
+    return BlocConsumer<Converter, ConverterState>(
+      bloc: converter,
+      listener: (context, state) {},
+      builder: (context, state) {
+        String? currency = converter.getCurrency(_currentCurrency);
+        String? code = converter.getCode(_currentCurrency);
+        double amount = 100.00;
+
+        return Expanded(
+          child: Container(
+            color: _color,
+            width: double.infinity,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                currencyText(currency: currency),
+                amountText(amount: amount),
+                currencyCodeText(code: code),
+              ],
             ),
           ),
         );
       },
-      child: Text(
-        "${converter.getCurrency(_currentCurrency)}",
-        style: TextStyle(
-          color: _textColor,
-        ),
-      ),
-    );
-
-    final Widget amountText = Text(
-      "100.00",
-      style: TextStyle(
-        color: _textColor,
-      ),
-    );
-
-    final Text currencyCodeText = Text(
-      "${converter.getCode(_currentCurrency)}",
-      style: TextStyle(
-        color: _textColor,
-      ),
-    );
-
-    return Expanded(
-      child: Container(
-        color: _color,
-        width: double.infinity,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            currencyText,
-            amountText,
-            currencyCodeText,
-          ],
-        ),
-      ),
     );
   }
 }
