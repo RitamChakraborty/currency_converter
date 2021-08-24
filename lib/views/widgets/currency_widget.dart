@@ -1,3 +1,4 @@
+import 'package:currency_converter/views/currency_selector.dart';
 import 'package:flutter/material.dart';
 
 class CurrencyWidget extends StatelessWidget {
@@ -14,14 +15,26 @@ class CurrencyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Text currencyText = Text(
-      "EURO",
-      style: TextStyle(
-        color: _textColor,
+    final Widget currencyText = TextButton(
+      onPressed: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => CurrencySelector(
+              color: _color,
+              textColor: _textColor,
+            ),
+          ),
+        );
+      },
+      child: Text(
+        "EURO",
+        style: TextStyle(
+          color: _textColor,
+        ),
       ),
     );
 
-    final Text amountText = Text(
+    final Widget amountText = Text(
       "100.00",
       style: TextStyle(
         color: _textColor,
@@ -37,8 +50,8 @@ class CurrencyWidget extends StatelessWidget {
 
     return Expanded(
       child: Container(
-        width: double.infinity,
         color: _color,
+        width: double.infinity,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
