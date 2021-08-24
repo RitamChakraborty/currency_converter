@@ -1,6 +1,8 @@
 import 'package:currency_converter/data/current_currency.dart';
+import 'package:currency_converter/service/converter.dart';
 import 'package:currency_converter/views/currency_selector.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CurrencyWidget extends StatelessWidget {
   final Color _color;
@@ -19,6 +21,8 @@ class CurrencyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Converter converter = BlocProvider.of<Converter>(context);
+
     final Widget currencyText = TextButton(
       onPressed: () {
         Navigator.of(context).push(
@@ -32,7 +36,7 @@ class CurrencyWidget extends StatelessWidget {
         );
       },
       child: Text(
-        "EURO",
+        "${converter.getCurrency(_currentCurrency)}",
         style: TextStyle(
           color: _textColor,
         ),
@@ -47,7 +51,7 @@ class CurrencyWidget extends StatelessWidget {
     );
 
     final Text currencyCodeText = Text(
-      "EUR",
+      "${converter.getCode(_currentCurrency)}",
       style: TextStyle(
         color: _textColor,
       ),

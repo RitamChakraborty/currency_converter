@@ -19,6 +19,24 @@ class Converter extends HydratedCubit<ConverterState> {
 
   CurrencyEnum? get currencyTwo => _currencyTwo;
 
+  String? getCurrency(CurrentCurrency currentCurrency) {
+    switch (currentCurrency) {
+      case CurrentCurrency.ONE:
+        return _currencyOne!.currency;
+      case CurrentCurrency.TWO:
+        return _currencyTwo!.currency;
+    }
+  }
+
+  String? getCode(CurrentCurrency currentCurrency) {
+    switch (currentCurrency) {
+      case CurrentCurrency.ONE:
+        return _currencyOne!.code;
+      case CurrentCurrency.TWO:
+        return _currencyTwo!.code;
+    }
+  }
+
   void changeCurrency({
     required CurrencyEnum? currency,
     required CurrentCurrency currentCurrency,
