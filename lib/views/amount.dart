@@ -109,6 +109,7 @@ class Amount extends StatelessWidget {
           itemCount: digitButtons.length,
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: MediaQuery.of(context).size.width / 3,
+            mainAxisExtent: MediaQuery.of(context).size.height / 9,
           ),
           itemBuilder: (context, index) {
             return digitButtons[index];
