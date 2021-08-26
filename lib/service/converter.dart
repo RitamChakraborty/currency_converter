@@ -54,7 +54,6 @@ class Converter extends HydratedCubit<ConverterState> {
         }
     }
 
-    print(currency);
     emit(CurrencyChangedState());
   }
 

@@ -1,4 +1,5 @@
 import 'package:currency_converter/data/currency_enum.dart';
+import 'package:currency_converter/data/currency_util.dart';
 import 'package:currency_converter/data/current_currency.dart';
 import 'package:currency_converter/service/converter.dart';
 import 'package:currency_converter/views/widgets/currency_tile.dart';
@@ -25,10 +26,15 @@ class CurrencySelector extends StatelessWidget {
     Converter converter = BlocProvider.of<Converter>(context);
 
     final List<Widget> currencies = CurrencyEnum.values.map((currency) {
+      bool selected = currency ==
+          CurrencyUtil.currencyEnumFromCode(
+              converter.getCode(_currentCurrency));
+
       return CurrencyTile(
         currencyName: currency.currency!,
         currencyCode: currency.code!,
         textColor: _textColor,
+        selected: selected,
         onSelected: () {
           converter.changeCurrency(
             currency: currency,
