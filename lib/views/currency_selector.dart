@@ -25,40 +25,46 @@ class CurrencySelector extends StatelessWidget {
   Widget build(BuildContext context) {
     Converter converter = BlocProvider.of<Converter>(context);
 
-    final List<Widget> currencies = CurrencyEnum.values.map((currency) {
-      bool selected = currency ==
-          CurrencyUtil.currencyEnumFromCode(
-              converter.getCode(_currentCurrency));
+    List<Widget> getCurrencies(String? code) {
+      return CurrencyEnum.values.map((currency) {
+        bool selected = currency == CurrencyUtil.currencyEnumFromCode(code);
 
-      return CurrencyTile(
-        currencyName: currency.currency!,
-        currencyCode: currency.code!,
-        textColor: _textColor,
-        selected: selected,
-        onSelected: () {
-          converter.changeCurrency(
-            currency: currency,
-            currentCurrency: _currentCurrency,
-          );
-        },
-      );
-    }).toList();
+        return CurrencyTile(
+          currencyName: currency.currency!,
+          currencyCode: currency.code!,
+          textColor: _textColor,
+          selected: selected,
+          onSelected: () {
+            converter.changeCurrency(
+              currency: currency,
+              currentCurrency: _currentCurrency,
+            );
+          },
+        );
+      }).toList();
+    }
 
-    return Scaffold(
-      backgroundColor: _color,
-      appBar: AppBar(
-        backgroundColor: _color,
-        elevation: 0,
-        leading: BackButton(
-          color: _textColor,
-        ),
-      ),
-      body: SafeArea(
-        child: ListView.builder(
-          itemCount: CurrencyEnum.values.length,
-          itemBuilder: (context, index) => currencies[index],
-        ),
-      ),
+    return BlocBuilder<Converter, ConverterState>(
+      bloc: converter,
+      builder: (context, state) {
+        return Scaffold(
+          backgroundColor: _color,
+          appBar: AppBar(
+            backgroundColor: _color,
+            elevation: 0,
+            leading: BackButton(
+              color: _textColor,
+            ),
+          ),
+          body: SafeArea(
+            child: ListView.builder(
+              itemCount: CurrencyEnum.values.length,
+              itemBuilder: (context, index) =>
+                  getCurrencies(converter.getCode(_currentCurrency))[index],
+            ),
+          ),
+        );
+      },
     );
   }
 }
