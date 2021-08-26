@@ -1,5 +1,6 @@
 import 'package:currency_converter/data/current_currency.dart';
 import 'package:currency_converter/service/converter.dart';
+import 'package:currency_converter/views/amount.dart';
 import 'package:currency_converter/views/currency_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,10 +44,23 @@ class CurrencyWidget extends StatelessWidget {
           ),
         );
 
-    Widget amountText({required double amount}) => Text(
-          "${amount.toStringAsFixed(2)}",
-          style: TextStyle(
-            color: _textColor,
+    Widget amountText({required double amount}) => TextButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => Amount(
+                  color: _color,
+                  textColor: _textColor,
+                  currentCurrency: _currentCurrency,
+                ),
+              ),
+            );
+          },
+          child: Text(
+            "${amount.toStringAsFixed(2)}",
+            style: TextStyle(
+              color: _textColor,
+            ),
           ),
         );
 
