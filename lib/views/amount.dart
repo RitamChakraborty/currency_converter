@@ -1,4 +1,5 @@
 import 'package:currency_converter/data/current_currency.dart';
+import 'package:currency_converter/views/widgets/digit_button.dart';
 import 'package:flutter/material.dart';
 
 class Amount extends StatelessWidget {
@@ -18,28 +19,99 @@ class Amount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> digitBtns = [
-      CircleAvatar(),
-      CircleAvatar(),
-      CircleAvatar(),
-      CircleAvatar(),
-      CircleAvatar(),
-      CircleAvatar(),
-      CircleAvatar(),
-      CircleAvatar(),
-      CircleAvatar(),
+    final backButton = Align(
+      alignment: Alignment.center,
+      child: FloatingActionButton(
+        backgroundColor: _textColor,
+        child: Icon(
+          Icons.backspace,
+          size: 24,
+          color: _color,
+        ),
+        onPressed: () {},
+      ),
+    );
+
+    final List<Widget> digitButtons = [
+      DigitButton(
+        text: "1",
+        color: _textColor,
+        textColor: _color,
+        onPressed: () {},
+      ),
+      DigitButton(
+        text: "2",
+        color: _textColor,
+        textColor: _color,
+        onPressed: () {},
+      ),
+      DigitButton(
+        text: "3",
+        color: _textColor,
+        textColor: _color,
+        onPressed: () {},
+      ),
+      DigitButton(
+        text: "4",
+        color: _textColor,
+        textColor: _color,
+        onPressed: () {},
+      ),
+      DigitButton(
+        text: "5",
+        color: _textColor,
+        textColor: _color,
+        onPressed: () {},
+      ),
+      DigitButton(
+        text: "6",
+        color: _textColor,
+        textColor: _color,
+        onPressed: () {},
+      ),
+      DigitButton(
+        text: "7",
+        color: _textColor,
+        textColor: _color,
+        onPressed: () {},
+      ),
+      DigitButton(
+        text: "8",
+        color: _textColor,
+        textColor: _color,
+        onPressed: () {},
+      ),
+      DigitButton(
+        text: "9",
+        color: _textColor,
+        textColor: _color,
+        onPressed: () {},
+      ),
+      DigitButton(
+        text: ".",
+        color: _textColor,
+        textColor: _color,
+        onPressed: () {},
+      ),
+      DigitButton(
+        text: "0",
+        color: _textColor,
+        textColor: _color,
+        onPressed: () {},
+      ),
+      backButton,
     ];
 
     return Scaffold(
       backgroundColor: _color,
       body: SafeArea(
         child: GridView.builder(
-          itemCount: digitBtns.length,
+          itemCount: digitButtons.length,
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: MediaQuery.of(context).size.width / 3,
           ),
           itemBuilder: (context, index) {
-            return digitBtns[index];
+            return digitButtons[index];
           },
         ),
       ),
