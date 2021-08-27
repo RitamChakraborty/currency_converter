@@ -1,9 +1,10 @@
 import 'package:currency_converter/data/current_currency.dart';
+import 'package:currency_converter/views/widgets/blinking_cursor.dart';
 import 'package:currency_converter/views/widgets/digit_button.dart';
 import 'package:flutter/material.dart';
 
 class Amount extends StatelessWidget {
-  const Amount({
+  Amount({
     required Color color,
     required Color textColor,
     required CurrentCurrency currentCurrency,
@@ -16,6 +17,7 @@ class Amount extends StatelessWidget {
   final Color _color;
   final Color _textColor;
   final CurrentCurrency _currentCurrency;
+  final TextEditingController _textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -102,18 +104,40 @@ class Amount extends StatelessWidget {
       backButton,
     ];
 
+    _textEditingController.text = "1234567890";
+
     return Scaffold(
       backgroundColor: _color,
+      appBar: AppBar(
+        leading: BackButton(),
+      ),
       body: SafeArea(
-        child: GridView.builder(
-          itemCount: digitButtons.length,
-          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: MediaQuery.of(context).size.width / 3,
-            mainAxisExtent: MediaQuery.of(context).size.height / 9,
-          ),
-          itemBuilder: (context, index) {
-            return digitButtons[index];
-          },
+        child: Column(
+          children: [
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(""),
+                  BlinkingCursor(
+                    cursorColor: _textColor,
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: GridView.builder(
+                itemCount: digitButtons.length,
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: MediaQuery.of(context).size.width / 3,
+                  mainAxisExtent: MediaQuery.of(context).size.height / 9,
+                ),
+                itemBuilder: (context, index) {
+                  return digitButtons[index];
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
