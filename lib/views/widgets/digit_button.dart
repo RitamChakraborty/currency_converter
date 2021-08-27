@@ -24,6 +24,7 @@ class DigitButton extends StatelessWidget {
       alignment: Alignment.center,
       child: FloatingActionButton(
         backgroundColor: _color,
+        heroTag: _text,
         child: Text(
           _text,
           style: TextStyle(
