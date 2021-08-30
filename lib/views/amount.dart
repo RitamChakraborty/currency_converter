@@ -1,4 +1,6 @@
 import 'package:currency_converter/data/current_currency.dart';
+import 'package:currency_converter/data/digit_enum.dart';
+import 'package:currency_converter/data/digit_util.dart';
 import 'package:currency_converter/views/widgets/blinking_cursor.dart';
 import 'package:currency_converter/views/widgets/digit_button.dart';
 import 'package:flutter/material.dart';
@@ -34,77 +36,16 @@ class Amount extends StatelessWidget {
       ),
     );
 
-    final List<Widget> digitButtons = [
-      DigitButton(
-        text: "1",
-        color: _textColor,
-        textColor: _color,
-        onPressed: () {},
-      ),
-      DigitButton(
-        text: "2",
-        color: _textColor,
-        textColor: _color,
-        onPressed: () {},
-      ),
-      DigitButton(
-        text: "3",
-        color: _textColor,
-        textColor: _color,
-        onPressed: () {},
-      ),
-      DigitButton(
-        text: "4",
-        color: _textColor,
-        textColor: _color,
-        onPressed: () {},
-      ),
-      DigitButton(
-        text: "5",
-        color: _textColor,
-        textColor: _color,
-        onPressed: () {},
-      ),
-      DigitButton(
-        text: "6",
-        color: _textColor,
-        textColor: _color,
-        onPressed: () {},
-      ),
-      DigitButton(
-        text: "7",
-        color: _textColor,
-        textColor: _color,
-        onPressed: () {},
-      ),
-      DigitButton(
-        text: "8",
-        color: _textColor,
-        textColor: _color,
-        onPressed: () {},
-      ),
-      DigitButton(
-        text: "9",
-        color: _textColor,
-        textColor: _color,
-        onPressed: () {},
-      ),
-      DigitButton(
-        text: ".",
-        color: _textColor,
-        textColor: _color,
-        onPressed: () {},
-      ),
-      DigitButton(
-        text: "0",
-        color: _textColor,
-        textColor: _color,
-        onPressed: () {},
-      ),
-      backButton,
-    ];
-
-    _textEditingController.text = "1234567890";
+    final List<Widget> digitButtons = DigitEnum.values
+        .map((digitEnum) => DigitButton(
+              text: digitEnum.name,
+              color: _textColor,
+              textColor: _color,
+              child:
+                  DigitUtil.getDigitWidget(digitEnum: digitEnum, color: _color),
+              onPressed: () {},
+            ))
+        .toList();
 
     return Scaffold(
       backgroundColor: _color,
