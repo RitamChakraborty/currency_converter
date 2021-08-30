@@ -39,40 +39,53 @@ class Amount extends StatelessWidget {
             ))
         .toList();
 
-    return Scaffold(
-      backgroundColor: _color,
-      appBar: AppBar(
-        leading: BackButton(),
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+    Widget amountText(String amount) {
+      return Text(
+        amount,
+      );
+    }
+
+    return BlocBuilder<Converter, ConverterState>(
+        bloc: converter,
+        builder: (context, state) {
+          return Scaffold(
+            backgroundColor: _color,
+            appBar: AppBar(
+              leading: BackButton(),
+            ),
+            body: SafeArea(
+              child: Column(
                 children: [
-                  Text(""),
-                  BlinkingCursor(
-                    cursorColor: _textColor,
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        amountText(
+                          converter.getAmount(_currentCurrency),
+                        ),
+                        BlinkingCursor(
+                          cursorColor: _textColor,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: GridView.builder(
+                      itemCount: digitButtons.length,
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent:
+                            MediaQuery.of(context).size.width / 3,
+                        mainAxisExtent: MediaQuery.of(context).size.height / 9,
+                      ),
+                      itemBuilder: (context, index) {
+                        return digitButtons[index];
+                      },
+                    ),
                   ),
                 ],
               ),
             ),
-            Expanded(
-              child: GridView.builder(
-                itemCount: digitButtons.length,
-                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: MediaQuery.of(context).size.width / 3,
-                  mainAxisExtent: MediaQuery.of(context).size.height / 9,
-                ),
-                itemBuilder: (context, index) {
-                  return digitButtons[index];
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
 }

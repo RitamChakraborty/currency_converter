@@ -17,16 +17,16 @@ class Converter extends HydratedCubit<ConverterState> {
 
   CurrencyEnum? _currencyOne = CurrencyEnum.USD;
   CurrencyEnum? _currencyTwo = CurrencyEnum.INR;
-  double _currencyOneAmount = 0.0;
-  double _currencyTwoAmount = 0.0;
+  String _currencyOneAmount = "0";
+  String _currencyTwoAmount = "0";
 
   CurrencyEnum? get currencyOne => _currencyOne;
 
   CurrencyEnum? get currencyTwo => _currencyTwo;
 
-  double get currencyOneAmount => _currencyOneAmount;
+  String get currencyOneAmount => _currencyOneAmount;
 
-  double get currencyTwoAmount => _currencyTwoAmount;
+  String get currencyTwoAmount => _currencyTwoAmount;
 
   String? getCurrency(CurrentCurrency currentCurrency) {
     switch (currentCurrency) {
@@ -46,7 +46,18 @@ class Converter extends HydratedCubit<ConverterState> {
     }
   }
 
-  double getAmount(CurrentCurrency currentCurrency) {
+  void _setAmount(CurrentCurrency currentCurrency, String currencyAmount) {
+    switch (currentCurrency) {
+      case CurrentCurrency.ONE:
+        _currencyOneAmount = currencyAmount;
+        break;
+      case CurrentCurrency.TWO:
+        _currencyTwoAmount = currencyAmount;
+        break;
+    }
+  }
+
+  String getAmount(CurrentCurrency currentCurrency) {
     switch (currentCurrency) {
       case CurrentCurrency.ONE:
         return _currencyOneAmount;
@@ -76,6 +87,8 @@ class Converter extends HydratedCubit<ConverterState> {
   }
 
   void digitPressed(DigitEnum digitEnum, CurrentCurrency currentCurrency) {
+    String currencyAmount = getAmount(currentCurrency);
+
     switch (digitEnum) {
       case DigitEnum.ONE:
       case DigitEnum.TWO:
@@ -88,8 +101,7 @@ class Converter extends HydratedCubit<ConverterState> {
       case DigitEnum.NINE:
       case DigitEnum.ZERO:
         {
-          double digit = double.parse(digitEnum.name);
-          print(digit);
+          currencyAmount += digitEnum.name;
           break;
         }
       case DigitEnum.POINT:
@@ -102,6 +114,7 @@ class Converter extends HydratedCubit<ConverterState> {
         }
     }
 
+    _setAmount(currentCurrency, currencyAmount);
     emit(CurrencyAmountChangeState());
   }
 
