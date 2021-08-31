@@ -87,7 +87,9 @@ class Converter extends HydratedCubit<ConverterState> {
   }
 
   void digitPressed(DigitEnum digitEnum, CurrentCurrency currentCurrency) {
-    String currencyAmount = getAmount(currentCurrency);
+    List<String> wholeAmount = getAmount(currentCurrency).split(".");
+    String integer = wholeAmount[0];
+    String decimal = wholeAmount[1];
 
     switch (digitEnum) {
       case DigitEnum.ONE:
@@ -101,7 +103,7 @@ class Converter extends HydratedCubit<ConverterState> {
       case DigitEnum.NINE:
       case DigitEnum.ZERO:
         {
-          currencyAmount += digitEnum.name;
+          integer += digitEnum.name;
           break;
         }
       case DigitEnum.POINT:
@@ -114,6 +116,8 @@ class Converter extends HydratedCubit<ConverterState> {
         }
     }
 
+    String currencyAmount = integer + decimal;
+    currencyAmount = double.parse(currencyAmount).toString();
     _setAmount(currentCurrency, currencyAmount);
     emit(CurrencyAmountChangeState());
   }
