@@ -15,10 +15,10 @@ class CurrencyAmountChangeState extends ConverterState {}
 class Converter extends HydratedCubit<ConverterState> {
   Converter() : super(InitialState());
 
-  CurrencyEnum? _currencyOne = CurrencyEnum.USD;
+  CurrencyEnum? _currencyOne = CurrencyEnum.INR;
   CurrencyEnum? _currencyTwo = CurrencyEnum.INR;
-  String _currencyOneAmount = "0";
-  String _currencyTwoAmount = "0";
+  String _currencyOneAmount = "1";
+  String _currencyTwoAmount = "1";
 
   CurrencyEnum? get currencyOne => _currencyOne;
 
@@ -100,12 +100,20 @@ class Converter extends HydratedCubit<ConverterState> {
       case DigitEnum.EIGHT:
       case DigitEnum.NINE:
       case DigitEnum.ZERO:
-        {
-          currencyAmount += digitEnum.name;
+      {
+          if (currencyAmount.contains(".")) {
+            if (currencyAmount.split(".")[1].length < 2) {
+              currencyAmount += digitEnum.name;
+            }
+          } else {
+            currencyAmount += digitEnum.name;
+          }
+
           break;
         }
       case DigitEnum.POINT:
         {
+          currencyAmount += ".";
           break;
         }
       case DigitEnum.BACKSPACE:
@@ -129,22 +137,21 @@ class Converter extends HydratedCubit<ConverterState> {
     String? currencyTwoCode = json['currency_two'];
     _currencyOne = CurrencyUtil.currencyEnumFromCode(currencyOneCode);
     _currencyTwo = CurrencyUtil.currencyEnumFromCode(currencyTwoCode);
+    _currencyOneAmount = json['currency_one_amount'] ?? "1";
+    _currencyTwoAmount = json['currency_two_amount'] ?? "1";
 
     return InitialState();
   }
 
   @override
   Map<String, dynamic>? toJson(ConverterState state) {
-    if (_currencyOne != null && _currencyTwo != null) {
-      return {
-        'currency_one': _currencyOne!.code,
-        'currency_two': _currencyTwo!.code,
-      };
-    }
-
     return {
-      'currency_one': CurrencyEnum.USD.code,
-      'currency_two': CurrencyEnum.INR.code,
+      'currency_one':
+          _currencyOne == null ? CurrencyEnum.USD.code : _currencyOne!.code,
+      'currency_two':
+          _currencyTwo == null ? CurrencyEnum.INR.code : _currencyTwo!.code,
+      'currency_one_amount': _currencyOneAmount,
+      'currency_two_amount': _currencyTwoAmount,
     };
   }
 }
