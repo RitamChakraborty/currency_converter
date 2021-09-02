@@ -44,7 +44,7 @@ class CurrencyWidget extends StatelessWidget {
           ),
         );
 
-    Widget amountText({required double amount}) => TextButton(
+    Widget amountText({required String amount}) => TextButton(
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(
@@ -57,7 +57,7 @@ class CurrencyWidget extends StatelessWidget {
             );
           },
           child: Text(
-            "${amount.toStringAsFixed(2)}",
+            amount,
             style: TextStyle(
               color: _textColor,
             ),
@@ -77,7 +77,7 @@ class CurrencyWidget extends StatelessWidget {
       builder: (context, state) {
         String? currency = converter.getCurrency(_currentCurrency);
         String? code = converter.getCode(_currentCurrency);
-        double amount = 100.00;
+        String amount = converter.getAmount(_currentCurrency);
 
         return Expanded(
           child: Container(
