@@ -1,12 +1,7 @@
+import 'package:currency_converter/service/inherited_properties.dart';
 import 'package:flutter/material.dart';
 
 class BlinkingCursor extends StatefulWidget {
-  const BlinkingCursor({required Color cursorColor, Key? key})
-      : this._cursorColor = cursorColor,
-        super(key: key);
-
-  final Color _cursorColor;
-
   @override
   _BlinkingCursorState createState() => _BlinkingCursorState();
 }
@@ -35,12 +30,14 @@ class _BlinkingCursorState extends State<BlinkingCursor>
 
   @override
   Widget build(BuildContext context) {
+    Color cursorColor = InheritedProperties.of(context).accentColor;
+
     return FadeTransition(
       opacity: CurvedAnimation(parent: _controller, curve: Curves.linear),
       child: Container(
         height: 40,
         width: 2,
-        color: widget._cursorColor,
+        color: cursorColor,
       ),
     );
   }

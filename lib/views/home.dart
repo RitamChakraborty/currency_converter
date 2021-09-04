@@ -1,4 +1,5 @@
 import 'package:currency_converter/data/current_currency.dart';
+import 'package:currency_converter/service/inherited_properties.dart';
 import 'package:currency_converter/views/widgets/currency_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -12,15 +13,17 @@ class Home extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            CurrencyWidget(
-              color: Theme.of(context).primaryColor,
-              textColor: Theme.of(context).accentColor,
+            InheritedProperties(
+              primaryColor: Theme.of(context).primaryColor,
+              accentColor: Theme.of(context).accentColor,
               currentCurrency: CurrentCurrency.ONE,
+              child: CurrencyWidget(),
             ),
-            CurrencyWidget(
-              color: Theme.of(context).accentColor,
-              textColor: Theme.of(context).primaryColor,
+            InheritedProperties(
+              primaryColor: Theme.of(context).accentColor,
+              accentColor: Theme.of(context).primaryColor,
               currentCurrency: CurrentCurrency.TWO,
+              child: CurrencyWidget(),
             ),
           ],
         ),

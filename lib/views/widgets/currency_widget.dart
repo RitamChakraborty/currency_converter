@@ -1,37 +1,29 @@
 import 'package:currency_converter/data/current_currency.dart';
 import 'package:currency_converter/service/converter.dart';
+import 'package:currency_converter/service/inherited_properties.dart';
 import 'package:currency_converter/views/amount.dart';
 import 'package:currency_converter/views/currency_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CurrencyWidget extends StatelessWidget {
-  final Color _color;
-  final Color _textColor;
-  final CurrentCurrency _currentCurrency;
-
-  const CurrencyWidget({
-    required Color color,
-    required Color textColor,
-    required CurrentCurrency currentCurrency,
-    Key? key,
-  })  : this._color = color,
-        this._textColor = textColor,
-        this._currentCurrency = currentCurrency,
-        super(key: key);
-
   @override
   Widget build(BuildContext context) {
     Converter converter = BlocProvider.of<Converter>(context);
+    Color primaryColor = InheritedProperties.of(context).primaryColor;
+    Color accentColor = InheritedProperties.of(context).accentColor;
+    CurrentCurrency currentCurrency =
+        InheritedProperties.of(context).currentCurrency;
 
     Widget currencyText({required String? currency}) => TextButton(
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => CurrencySelector(
-                  color: _color,
-                  textColor: _textColor,
-                  currentCurrency: _currentCurrency,
+                builder: (_) => InheritedProperties(
+                  primaryColor: primaryColor,
+                  accentColor: accentColor,
+                  currentCurrency: currentCurrency,
+                  child: CurrencySelector(),
                 ),
               ),
             );
@@ -39,7 +31,7 @@ class CurrencyWidget extends StatelessWidget {
           child: Text(
             currency ?? "NULL",
             style: TextStyle(
-              color: _textColor,
+              color: accentColor,
             ),
           ),
         );
@@ -48,10 +40,11 @@ class CurrencyWidget extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => Amount(
-                  color: _color,
-                  textColor: _textColor,
-                  currentCurrency: _currentCurrency,
+                builder: (_) => InheritedProperties(
+                  primaryColor: primaryColor,
+                  accentColor: accentColor,
+                  currentCurrency: currentCurrency,
+                  child: Amount(),
                 ),
               ),
             );
@@ -59,7 +52,7 @@ class CurrencyWidget extends StatelessWidget {
           child: Text(
             amount,
             style: TextStyle(
-              color: _textColor,
+              color: accentColor,
             ),
           ),
         );
@@ -67,7 +60,7 @@ class CurrencyWidget extends StatelessWidget {
     Text currencyCodeText({required String? code}) => Text(
           code ?? "NULL",
           style: TextStyle(
-            color: _textColor,
+            color: accentColor,
           ),
         );
 
@@ -75,13 +68,13 @@ class CurrencyWidget extends StatelessWidget {
       bloc: converter,
       listener: (context, state) {},
       builder: (context, state) {
-        String? currency = converter.getCurrency(_currentCurrency);
-        String? code = converter.getCode(_currentCurrency);
-        String amount = converter.getAmount(_currentCurrency);
+        String? currency = converter.getCurrency(currentCurrency);
+        String? code = converter.getCode(currentCurrency);
+        String amount = converter.getAmount(currentCurrency);
 
         return Expanded(
           child: Container(
-            color: _color,
+            color: primaryColor,
             width: double.infinity,
             child: Column(
               mainAxisSize: MainAxisSize.max,
