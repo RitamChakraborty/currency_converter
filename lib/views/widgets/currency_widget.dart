@@ -74,6 +74,16 @@ class CurrencyWidget extends StatelessWidget {
         String? code = converter.getCode(currentCurrency);
         String amount = converter.getSanitizedAmount(currentCurrency);
 
+        List<Widget> children = [
+          currencyText(currency: currency),
+          amountText(amount: amount),
+          currencyCodeText(code: code)
+        ];
+
+        if (currentCurrency == CurrentCurrency.TWO) {
+          children = children.reversed.toList();
+        }
+
         return Expanded(
           child: Container(
             color: primaryColor,
@@ -82,11 +92,7 @@ class CurrencyWidget extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                currencyText(currency: currency),
-                amountText(amount: amount),
-                currencyCodeText(code: code),
-              ],
+              children: children,
             ),
           ),
         );
