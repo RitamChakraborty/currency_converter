@@ -70,7 +70,7 @@ class CurrencyWidget extends StatelessWidget {
       builder: (context, state) {
         String? currency = converter.getCurrency(currentCurrency);
         String? code = converter.getCode(currentCurrency);
-        String amount = converter.getAmount(currentCurrency);
+        String amount = converter.getSanitizeAmount(currentCurrency);
 
         return Expanded(
           child: Container(
