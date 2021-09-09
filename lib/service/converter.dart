@@ -66,16 +66,23 @@ class Converter extends HydratedCubit<ConverterState> {
     }
   }
 
-  String getSanitizeAmount(CurrentCurrency currentCurrency) {
-    String currencyAmount = currentCurrency == CurrentCurrency.ONE
-        ? _currencyOneAmount
-        : _currencyTwoAmount;
+  String getSanitizedAmount(CurrentCurrency currentCurrency) {
+    switch (currentCurrency) {
+      case CurrentCurrency.ONE:
+        _currencyOneAmount = sanitizeAmount(_currencyOneAmount);
+        return _currencyOneAmount;
+      case CurrentCurrency.TWO:
+        _currencyTwoAmount = sanitizeAmount(_currencyTwoAmount);
+        return _currencyTwoAmount;
+    }
+  }
 
-    if (currencyAmount.endsWith(".")) {
-      currencyAmount = currencyAmount.substring(0, currencyAmount.length - 1);
+  String sanitizeAmount(String amount) {
+    if (amount.endsWith(".")) {
+      amount = amount.substring(0, amount.length - 1);
     }
 
-    return currencyAmount;
+    return amount;
   }
 
   void changeCurrency({

@@ -38,6 +38,8 @@ class CurrencyWidget extends StatelessWidget {
 
     Widget amountText({required String amount}) => TextButton(
           onPressed: () {
+            // Sanitize amount editor default currency amount text
+
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (_) => InheritedProperties(
@@ -70,7 +72,7 @@ class CurrencyWidget extends StatelessWidget {
       builder: (context, state) {
         String? currency = converter.getCurrency(currentCurrency);
         String? code = converter.getCode(currentCurrency);
-        String amount = converter.getSanitizeAmount(currentCurrency);
+        String amount = converter.getSanitizedAmount(currentCurrency);
 
         return Expanded(
           child: Container(
