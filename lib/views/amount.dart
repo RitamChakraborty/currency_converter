@@ -33,45 +33,58 @@ class Amount extends StatelessWidget {
       );
     }
 
+    Widget backButton() {
+      return IconButton(
+        icon: Icon(
+          Icons.keyboard_arrow_down_rounded,
+          size: 36.0,
+        ),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      );
+    }
+
     return BlocBuilder<Converter, ConverterState>(
-        bloc: converter,
-        builder: (context, state) {
-          return Scaffold(
-            backgroundColor: primaryColor,
-            appBar: AppBar(
-              leading: BackButton(),
-            ),
-            body: SafeArea(
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        amountText(
-                          converter.getAmount(currentCurrency),
-                        ),
-                        BlinkingCursor(),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: GridView.builder(
-                      itemCount: digitButtons.length,
-                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent:
-                            MediaQuery.of(context).size.width / 3,
-                        mainAxisExtent: MediaQuery.of(context).size.height / 9,
+      bloc: converter,
+      builder: (context, state) {
+        return Scaffold(
+          backgroundColor: primaryColor,
+          body: SafeArea(
+            child: Column(
+              children: [
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      amountText(
+                        converter.getAmount(currentCurrency),
                       ),
-                      itemBuilder: (context, index) {
-                        return digitButtons[index];
-                      },
-                    ),
+                      BlinkingCursor(),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                Expanded(
+                  child: GridView.builder(
+                    itemCount: digitButtons.length,
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: MediaQuery.of(context).size.width / 3,
+                      mainAxisExtent: MediaQuery.of(context).size.height / 9,
+                    ),
+                    itemBuilder: (context, index) {
+                      return digitButtons[index];
+                    },
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: backButton(),
+                )
+              ],
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 }
