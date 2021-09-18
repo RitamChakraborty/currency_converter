@@ -2,6 +2,7 @@ import 'package:currency_converter/data/current_currency.dart';
 import 'package:currency_converter/data/digit_enum.dart';
 import 'package:currency_converter/data/digit_util.dart';
 import 'package:currency_converter/service/converter.dart';
+import 'package:currency_converter/service/converter_state.dart';
 import 'package:currency_converter/service/inherited_properties.dart';
 import 'package:currency_converter/views/widgets/blinking_cursor.dart';
 import 'package:currency_converter/views/widgets/digit_button.dart';
@@ -46,13 +47,18 @@ class Amount extends StatelessWidget {
           color: accentColor,
         ),
         onPressed: () {
-          Navigator.of(context).pop();
+          converter.convertCurrency(currentCurrency);
         },
       );
     }
 
-    return BlocBuilder<Converter, ConverterState>(
+    return BlocConsumer<Converter, ConverterState>(
       bloc: converter,
+      listener: (context, state) {
+        if (state.runtimeType == ConvertCurrencyState) {
+          Navigator.of(context).pop();
+        }
+      },
       builder: (context, state) {
         return Scaffold(
           backgroundColor: primaryColor,

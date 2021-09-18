@@ -2,6 +2,7 @@ import 'package:currency_converter/data/currency_enum.dart';
 import 'package:currency_converter/data/currency_util.dart';
 import 'package:currency_converter/data/current_currency.dart';
 import 'package:currency_converter/service/converter.dart';
+import 'package:currency_converter/service/converter_state.dart';
 import 'package:currency_converter/service/inherited_properties.dart';
 import 'package:currency_converter/views/widgets/currency_tile.dart';
 import 'package:flutter/material.dart';

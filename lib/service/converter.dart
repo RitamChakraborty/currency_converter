@@ -2,23 +2,16 @@ import 'package:currency_converter/data/currency_enum.dart';
 import 'package:currency_converter/data/currency_util.dart';
 import 'package:currency_converter/data/current_currency.dart';
 import 'package:currency_converter/data/digit_enum.dart';
+import 'package:currency_converter/service/converter_state.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-
-abstract class ConverterState {}
-
-class InitialState extends ConverterState {}
-
-class CurrencyChangedState extends ConverterState {}
-
-class CurrencyAmountChangeState extends ConverterState {}
 
 class Converter extends HydratedCubit<ConverterState> {
   Converter() : super(InitialState());
 
   CurrencyEnum? _currencyOne = CurrencyEnum.INR;
   CurrencyEnum? _currencyTwo = CurrencyEnum.INR;
-  String _currencyOneAmount = "1";
-  String _currencyTwoAmount = "1";
+  String _currencyOneAmount = "";
+  String _currencyTwoAmount = "";
 
   CurrencyEnum? get currencyOne => _currencyOne;
 
@@ -158,6 +151,13 @@ class Converter extends HydratedCubit<ConverterState> {
 
     _setAmount(currentCurrency, currencyAmount);
     emit(CurrencyAmountChangeState());
+  }
+
+  void convertCurrency(CurrentCurrency currentCurrency) {
+    print(currencyOneAmount);
+    print(currencyTwoAmount);
+
+    emit(ConvertCurrencyState());
   }
 
   @override
