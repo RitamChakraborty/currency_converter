@@ -13,6 +13,7 @@ class Amount extends StatelessWidget {
   Widget build(BuildContext context) {
     Converter converter = BlocProvider.of<Converter>(context);
     Color primaryColor = InheritedProperties.of(context).primaryColor;
+    Color accentColor = InheritedProperties.of(context).accentColor;
     CurrentCurrency currentCurrency =
         InheritedProperties.of(context).currentCurrency;
 
@@ -30,6 +31,10 @@ class Amount extends StatelessWidget {
     Widget amountText(String amount) {
       return Text(
         amount,
+        style: TextStyle(
+          color: accentColor,
+          fontSize: 36.0,
+        ),
       );
     }
 
@@ -38,6 +43,7 @@ class Amount extends StatelessWidget {
         icon: Icon(
           Icons.keyboard_arrow_down_rounded,
           size: 36.0,
+          color: accentColor,
         ),
         onPressed: () {
           Navigator.of(context).pop();

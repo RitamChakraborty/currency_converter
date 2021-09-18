@@ -49,21 +49,29 @@ class Converter extends HydratedCubit<ConverterState> {
   void _setAmount(CurrentCurrency currentCurrency, String currencyAmount) {
     switch (currentCurrency) {
       case CurrentCurrency.ONE:
-        _currencyOneAmount = currencyAmount;
+        _currencyOneAmount = currencyAmount == "" ? "0" : currencyAmount;
+        _currencyTwoAmount = "--";
         break;
       case CurrentCurrency.TWO:
-        _currencyTwoAmount = currencyAmount;
+        _currencyTwoAmount = currencyAmount == "" ? "0" : currencyAmount;
+        _currencyOneAmount = "--";
         break;
     }
   }
 
   String getAmount(CurrentCurrency currentCurrency) {
+    String amount = "";
+
     switch (currentCurrency) {
       case CurrentCurrency.ONE:
-        return _currencyOneAmount;
+        amount = _currencyOneAmount;
+        break;
       case CurrentCurrency.TWO:
-        return _currencyTwoAmount;
+        amount = _currencyTwoAmount;
+        break;
     }
+
+    return amount == "--" ? "" : amount;
   }
 
   String getSanitizedAmount(CurrentCurrency currentCurrency) {
@@ -80,6 +88,8 @@ class Converter extends HydratedCubit<ConverterState> {
   String sanitizeAmount(String amount) {
     if (amount.endsWith(".")) {
       amount = amount.substring(0, amount.length - 1);
+    } else if (amount == "") {
+      amount = "0";
     }
 
     return amount;
