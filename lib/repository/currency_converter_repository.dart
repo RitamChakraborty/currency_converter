@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:currency_converter/model/ConvertCurrencyRequest.dart';
+import 'package:currency_converter/model/convert_currency_request.dart';
 import 'package:http/http.dart' as http;
 
-class CurrencyConverter {
+class CurrencyConverterRepository {
   Future<double?> convertCurrency(ConvertCurrencyRequest request) async {
     print(request.toString());
     try {

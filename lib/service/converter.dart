@@ -2,6 +2,8 @@ import 'package:currency_converter/data/currency_enum.dart';
 import 'package:currency_converter/data/currency_util.dart';
 import 'package:currency_converter/data/current_currency.dart';
 import 'package:currency_converter/data/digit_enum.dart';
+import 'package:currency_converter/model/convert_currency_request.dart';
+import 'package:currency_converter/repository/currency_converter_repository.dart';
 import 'package:currency_converter/service/converter_state.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
@@ -12,6 +14,8 @@ class Converter extends HydratedCubit<ConverterState> {
   CurrencyEnum? _currencyTwo = CurrencyEnum.INR;
   String _currencyOneAmount = "";
   String _currencyTwoAmount = "";
+  final CurrencyConverterRepository _currencyConverterRepository =
+      CurrencyConverterRepository();
 
   CurrencyEnum? get currencyOne => _currencyOne;
 
@@ -43,11 +47,11 @@ class Converter extends HydratedCubit<ConverterState> {
     switch (currentCurrency) {
       case CurrentCurrency.ONE:
         _currencyOneAmount = currencyAmount == "" ? "0" : currencyAmount;
-        _currencyTwoAmount = "--";
+        // _currencyTwoAmount = "--";
         break;
       case CurrentCurrency.TWO:
         _currencyTwoAmount = currencyAmount == "" ? "0" : currencyAmount;
-        _currencyOneAmount = "--";
+        // _currencyOneAmount = "--";
         break;
     }
   }
@@ -154,10 +158,47 @@ class Converter extends HydratedCubit<ConverterState> {
   }
 
   void convertCurrency(CurrentCurrency currentCurrency) {
-    print(currencyOneAmount);
-    print(currencyTwoAmount);
+    String? amountString;
+    String? fromCode;
+    String? toCode;
 
-    emit(ConvertCurrencyState());
+    if (currentCurrency == CurrentCurrency.ONE) {
+      amountString = currencyOneAmount;
+      fromCode = _currencyOne?.code;
+      toCode = _currencyTwo?.code;
+    } else if (currentCurrency == CurrentCurrency.TWO) {
+      amountString = currencyTwoAmount;
+      fromCode = _currencyTwo?.code;
+      toCode = _currencyOne?.code;
+    }
+
+    if (amountString != null && fromCode != null && toCode != null) {
+      try {
+        double amount = double.parse(amountString);
+        ConvertCurrencyRequest convertCurrencyRequest = ConvertCurrencyRequest(
+          fromCode: fromCode,
+          toCode: toCode,
+          amount: amount,
+        );
+
+        _currencyConverterRepository
+            .convertCurrency(convertCurrencyRequest)
+            .then((value) {
+          print(value);
+          if (value != null) {
+            if (currentCurrency == CurrentCurrency.ONE) {
+              _currencyTwoAmount = value.toStringAsFixed(2);
+            } else if (currentCurrency == CurrentCurrency.ONE) {
+              _currencyOneAmount = value.toStringAsFixed(2);
+            }
+          }
+
+          emit(ConvertCurrencyState());
+        });
+      } catch (e) {
+        print(e);
+      }
+    }
   }
 
   @override
