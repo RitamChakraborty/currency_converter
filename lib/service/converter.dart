@@ -14,6 +14,7 @@ class Converter extends HydratedCubit<ConverterState> {
   CurrencyEnum? _currencyTwo = CurrencyEnum.INR;
   String _currencyOneAmount = "";
   String _currencyTwoAmount = "";
+  CurrentCurrency? _currentCurrency;
   final CurrencyConverterRepository _currencyConverterRepository =
       CurrencyConverterRepository();
 
@@ -24,6 +25,8 @@ class Converter extends HydratedCubit<ConverterState> {
   String get currencyOneAmount => _currencyOneAmount;
 
   String get currencyTwoAmount => _currencyTwoAmount;
+
+  CurrentCurrency? get currentCurrency => _currentCurrency;
 
   String? getCurrency(CurrentCurrency currentCurrency) {
     switch (currentCurrency) {
@@ -158,6 +161,7 @@ class Converter extends HydratedCubit<ConverterState> {
   }
 
   void convertCurrency(CurrentCurrency currentCurrency) {
+    _currentCurrency = currentCurrency;
     String? amountString;
     String? fromCode;
     String? toCode;

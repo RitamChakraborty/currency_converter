@@ -1,5 +1,6 @@
 import 'package:currency_converter/data/current_currency.dart';
 import 'package:currency_converter/service/inherited_properties.dart';
+import 'package:currency_converter/views/widgets/conversion_indicator.dart';
 import 'package:currency_converter/views/widgets/currency_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -11,20 +12,29 @@ class Home extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       body: SafeArea(
-        child: Column(
+        child: Stack(
+          fit: StackFit.expand,
           children: [
-            InheritedProperties(
-              primaryColor: Theme.of(context).primaryColor,
-              accentColor: Theme.of(context).accentColor,
-              currentCurrency: CurrentCurrency.ONE,
-              child: CurrencyWidget(),
+            Column(
+              children: [
+                InheritedProperties(
+                  primaryColor: Theme.of(context).primaryColor,
+                  accentColor: Theme.of(context).accentColor,
+                  currentCurrency: CurrentCurrency.ONE,
+                  child: CurrencyWidget(),
+                ),
+                InheritedProperties(
+                  primaryColor: Theme.of(context).accentColor,
+                  accentColor: Theme.of(context).primaryColor,
+                  currentCurrency: CurrentCurrency.TWO,
+                  child: CurrencyWidget(),
+                ),
+              ],
             ),
-            InheritedProperties(
-              primaryColor: Theme.of(context).accentColor,
-              accentColor: Theme.of(context).primaryColor,
-              currentCurrency: CurrentCurrency.TWO,
-              child: CurrencyWidget(),
-            ),
+            Align(
+              alignment: Alignment.center,
+              child: ConversionIndicator(),
+            )
           ],
         ),
       ),
