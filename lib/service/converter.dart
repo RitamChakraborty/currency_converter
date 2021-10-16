@@ -51,11 +51,21 @@ class Converter extends HydratedCubit<ConverterState> {
       case CurrentCurrency.ONE:
         {
           _currencyOneAmount = currencyAmount;
+
+          if (_currencyOneAmount == "0") {
+            _currencyTwoAmount = "0";
+          }
+
           break;
         }
       case CurrentCurrency.TWO:
         {
           _currencyTwoAmount = currencyAmount;
+
+          if (_currencyTwoAmount == "0") {
+            _currencyOneAmount = "0";
+          }
+
           break;
         }
     }
@@ -119,7 +129,6 @@ class Converter extends HydratedCubit<ConverterState> {
 
   void digitPressed(DigitEnum digitEnum, CurrentCurrency currentCurrency) {
     String currencyAmount = getAmount(currentCurrency);
-    print(currencyAmount);
 
     switch (digitEnum) {
       case DigitEnum.ONE:
@@ -182,6 +191,17 @@ class Converter extends HydratedCubit<ConverterState> {
     if (amountString != null && fromCode != null && toCode != null) {
       try {
         double amount = double.parse(amountString);
+
+        if (amount == 0) {
+          _setAmount(
+              currentCurrency == CurrentCurrency.ONE
+                  ? CurrentCurrency.TWO
+                  : CurrentCurrency.ONE,
+              "0");
+
+          return emit(ConvertCurrencyState());
+        }
+
         ConvertCurrencyRequest convertCurrencyRequest = ConvertCurrencyRequest(
           fromCode: fromCode,
           toCode: toCode,
@@ -194,15 +214,15 @@ class Converter extends HydratedCubit<ConverterState> {
             .convertCurrency(convertCurrencyRequest)
             .then((value) {
           if (value != null) {
-            if (currentCurrency == CurrentCurrency.ONE) {
-              _currencyTwoAmount = value.toStringAsFixed(2);
-            } else if (currentCurrency == CurrentCurrency.ONE) {
-              _currencyOneAmount = value.toStringAsFixed(2);
-            }
+            _setAmount(
+                currentCurrency == CurrentCurrency.ONE
+                    ? CurrentCurrency.TWO
+                    : CurrentCurrency.ONE,
+                value.toStringAsFixed(2));
           }
         }).whenComplete(() => emit(ConvertCurrencyState()));
       } catch (e) {
-        print(e);
+        print("Converter.convertCurrency() error : $e");
       }
     }
   }

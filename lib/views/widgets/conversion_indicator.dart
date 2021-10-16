@@ -14,15 +14,14 @@ class ConversionIndicator extends StatelessWidget {
     return BlocBuilder<Converter, ConverterState>(
         bloc: converter,
         builder: (context, converterState) {
-          if (converterState.runtimeType == FetchingConversionState) {
-            return CircularProgressIndicator(
-              color: Theme.of(context).primaryColor,
-            );
-          }
-
-          CurrentCurrency? currentCurrency = converter.currentCurrency;
-
           Widget childWidget() {
+            if (converterState.runtimeType == FetchingConversionState) {
+              return CircularProgressIndicator(
+                color: Theme.of(context).primaryColor,
+              );
+            }
+
+            CurrentCurrency? currentCurrency = converter.currentCurrency;
             IconData? iconData;
 
             if (currentCurrency == null) {
