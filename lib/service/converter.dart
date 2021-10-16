@@ -49,13 +49,15 @@ class Converter extends HydratedCubit<ConverterState> {
   void _setAmount(CurrentCurrency currentCurrency, String currencyAmount) {
     switch (currentCurrency) {
       case CurrentCurrency.ONE:
-        _currencyOneAmount = currencyAmount == "" ? "0" : currencyAmount;
-        // _currencyTwoAmount = "--";
-        break;
+        {
+          _currencyOneAmount = currencyAmount;
+          break;
+        }
       case CurrentCurrency.TWO:
-        _currencyTwoAmount = currencyAmount == "" ? "0" : currencyAmount;
-        // _currencyOneAmount = "--";
-        break;
+        {
+          _currencyTwoAmount = currencyAmount;
+          break;
+        }
     }
   }
 
@@ -117,6 +119,7 @@ class Converter extends HydratedCubit<ConverterState> {
 
   void digitPressed(DigitEnum digitEnum, CurrentCurrency currentCurrency) {
     String currencyAmount = getAmount(currentCurrency);
+    print(currencyAmount);
 
     switch (digitEnum) {
       case DigitEnum.ONE:
@@ -185,10 +188,11 @@ class Converter extends HydratedCubit<ConverterState> {
           amount: amount,
         );
 
+        emit(FetchingConversionState());
+
         _currencyConverterRepository
             .convertCurrency(convertCurrencyRequest)
             .then((value) {
-          print(value);
           if (value != null) {
             if (currentCurrency == CurrentCurrency.ONE) {
               _currencyTwoAmount = value.toStringAsFixed(2);
@@ -196,9 +200,7 @@ class Converter extends HydratedCubit<ConverterState> {
               _currencyOneAmount = value.toStringAsFixed(2);
             }
           }
-
-          emit(ConvertCurrencyState());
-        });
+        }).whenComplete(() => emit(ConvertCurrencyState()));
       } catch (e) {
         print(e);
       }
@@ -213,6 +215,7 @@ class Converter extends HydratedCubit<ConverterState> {
     _currencyTwo = CurrencyUtil.currencyEnumFromCode(currencyTwoCode);
     _currencyOneAmount = json['currency_one_amount'] ?? "1";
     _currencyTwoAmount = json['currency_two_amount'] ?? "1";
+    // _currentCurrency = json['current_currency'];
 
     return InitialState();
   }
@@ -226,6 +229,7 @@ class Converter extends HydratedCubit<ConverterState> {
           _currencyTwo == null ? CurrencyEnum.INR.code : _currencyTwo!.code,
       'currency_one_amount': _currencyOneAmount,
       'currency_two_amount': _currencyTwoAmount,
+      // 'current_currency': _currentCurrency,
     };
   }
 }

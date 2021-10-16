@@ -11,13 +11,18 @@ class CurrencyConverterRepository {
 
       if (response.statusCode == 200) {
         Map<String, dynamic> data = jsonDecode(response.body);
-        return data['rates'].values.toList()[0];
+        double value =
+            double.parse(data['rates'].values.toList()[0].toString());
+
+        print("Value : $value");
+
+        return value;
       } else {
         throw Exception(
             "Error fetching the data for request ${request.toString()}");
       }
     } catch (e) {
-      print(e);
+      print("CurrencyConverterRepository error : $e");
     }
 
     return null;

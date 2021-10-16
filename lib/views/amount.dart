@@ -55,7 +55,8 @@ class Amount extends StatelessWidget {
     return BlocConsumer<Converter, ConverterState>(
       bloc: converter,
       listener: (context, state) {
-        if (state.runtimeType == ConvertCurrencyState) {
+        if (state.runtimeType == ConvertCurrencyState ||
+            state.runtimeType == FetchingConversionState) {
           Navigator.of(context).pop();
         }
       },
