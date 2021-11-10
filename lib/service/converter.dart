@@ -142,7 +142,7 @@ class Converter extends HydratedCubit<ConverterState> {
       case DigitEnum.EIGHT:
       case DigitEnum.NINE:
       case DigitEnum.ZERO:
-      {
+        {
           currencyAmount = currencyAmount == "0" ? "" : currencyAmount;
 
           if (currencyAmount.contains(".")) {
