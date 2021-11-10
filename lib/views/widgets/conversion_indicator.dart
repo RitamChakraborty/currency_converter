@@ -24,7 +24,9 @@ class ConversionIndicator extends StatelessWidget {
             CurrentCurrency? currentCurrency = converter.currentCurrency;
             IconData? iconData;
 
-            if (currentCurrency == null) {
+            if (converterState.runtimeType == ErrorFetchingConversionState) {
+              iconData = Icons.error_outline;
+            } else if (currentCurrency == null) {
               iconData = Icons.swap_vert;
             } else if (currentCurrency == CurrentCurrency.ONE) {
               iconData = Icons.arrow_downward;

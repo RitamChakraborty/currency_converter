@@ -228,7 +228,7 @@ class Converter extends HydratedCubit<ConverterState> {
             faliure = true;
           }
         }).whenComplete(() => faliure
-                ? emit(FailedFetchingConversionState())
+                ? emit(ErrorFetchingConversionState())
                 : emit(ConvertCurrencyState()));
       } catch (e) {
         print("Converter.convertCurrency() error : $e");
