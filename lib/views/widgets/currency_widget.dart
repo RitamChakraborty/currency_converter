@@ -33,6 +33,7 @@ class CurrencyWidget extends StatelessWidget {
             currency ?? "NULL",
             style: TextStyle(
               color: accentColor,
+              fontSize: 32.0,
             ),
           ),
         );
@@ -56,6 +57,7 @@ class CurrencyWidget extends StatelessWidget {
             amount,
             style: TextStyle(
               color: accentColor,
+              fontSize: 64.0,
             ),
           ),
         );
@@ -64,6 +66,7 @@ class CurrencyWidget extends StatelessWidget {
           code ?? "NULL",
           style: TextStyle(
             color: accentColor,
+            fontSize: 24.0,
           ),
         );
 
@@ -73,12 +76,17 @@ class CurrencyWidget extends StatelessWidget {
       builder: (context, state) {
         String? currency = converter.getCurrency(currentCurrency);
         String? code = converter.getCode(currentCurrency);
-        String amount = converter.getSanitizedAmount(currentCurrency);
+        String amount = converter.getAmount(currentCurrency);
+
+        if (state.runtimeType != CurrencyAmountChangeState) {
+          amount = converter.getSanitizedAmount(currentCurrency);
+        }
 
         List<Widget> children = [
           currencyText(currency: currency),
           amountText(amount: amount),
-          currencyCodeText(code: code)
+          currencyCodeText(code: code),
+          SizedBox(height: 5),
         ];
 
         if (currentCurrency == CurrentCurrency.TWO) {

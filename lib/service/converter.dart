@@ -89,15 +89,15 @@ class Converter extends HydratedCubit<ConverterState> {
   String getSanitizedAmount(CurrentCurrency currentCurrency) {
     switch (currentCurrency) {
       case CurrentCurrency.ONE:
-        _currencyOneAmount = sanitizeAmount(_currencyOneAmount);
+        _currencyOneAmount = _sanitizeAmount(_currencyOneAmount);
         return _currencyOneAmount;
       case CurrentCurrency.TWO:
-        _currencyTwoAmount = sanitizeAmount(_currencyTwoAmount);
+        _currencyTwoAmount = _sanitizeAmount(_currencyTwoAmount);
         return _currencyTwoAmount;
     }
   }
 
-  String sanitizeAmount(String amount) {
+  String _sanitizeAmount(String amount) {
     if (amount.endsWith(".")) {
       amount = amount.substring(0, amount.length - 1);
     } else if (amount == "") {
@@ -125,11 +125,11 @@ class Converter extends HydratedCubit<ConverterState> {
     }
 
     emit(CurrencyChangedState());
+    convertCurrency(currentCurrency);
   }
 
   void digitPressed(DigitEnum digitEnum, CurrentCurrency currentCurrency) {
     String currencyAmount = getAmount(currentCurrency);
-    currencyAmount = currencyAmount == "0" ? "" : currencyAmount;
 
     switch (digitEnum) {
       case DigitEnum.ONE:
@@ -142,7 +142,9 @@ class Converter extends HydratedCubit<ConverterState> {
       case DigitEnum.EIGHT:
       case DigitEnum.NINE:
       case DigitEnum.ZERO:
-        {
+      {
+          currencyAmount = currencyAmount == "0" ? "" : currencyAmount;
+
           if (currencyAmount.contains(".")) {
             if (currencyAmount.split(".")[1].length < 2) {
               currencyAmount += digitEnum.name;
