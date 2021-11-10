@@ -9,3 +9,5 @@ class CurrencyAmountChangeState extends ConverterState {}
 class ConvertCurrencyState extends ConverterState {}
 
 class FetchingConversionState extends ConverterState {}
+
+class FailedFetchingConversionState extends ConverterState {}

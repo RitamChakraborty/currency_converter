@@ -22,7 +22,8 @@ class CurrencyConverterRepository {
             "Error fetching the data for request ${request.toString()}");
       }
     } catch (e) {
-      print("CurrencyConverterRepository error : $e");
+      print("CurrencyConverterRepository" +
+          ".convertCurrency(ConvertCurrencyRequest request) error : $e");
     }
 
     return null;
