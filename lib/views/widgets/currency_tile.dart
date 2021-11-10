@@ -27,12 +27,14 @@ class CurrencyTile extends StatelessWidget {
       _currencyName,
       style: TextStyle(
         color: textColor,
+        fontSize: 24.0,
       ),
     );
     final Widget trailing = Text(
       _currencyCode,
       style: TextStyle(
         color: textColor,
+        fontSize: 18.0,
       ),
     );
 

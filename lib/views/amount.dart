@@ -34,7 +34,7 @@ class Amount extends StatelessWidget {
         amount,
         style: TextStyle(
           color: accentColor,
-          fontSize: 36.0,
+          fontSize: 64.0,
         ),
       );
     }

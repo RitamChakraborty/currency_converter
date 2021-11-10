@@ -35,8 +35,9 @@ class _BlinkingCursorState extends State<BlinkingCursor>
     return FadeTransition(
       opacity: CurvedAnimation(parent: _controller, curve: Curves.linear),
       child: Container(
-        height: 40,
-        width: 2,
+        margin: EdgeInsets.only(left: 2),
+        height: 70,
+        width: 4,
         color: cursorColor,
       ),
     );

@@ -176,6 +176,7 @@ class Converter extends HydratedCubit<ConverterState> {
   }
 
   void convertCurrency(CurrentCurrency currentCurrency) {
+    getSanitizedAmount(currentCurrency);
     _currentCurrency = currentCurrency;
     String? amountString;
     String? fromCode;
