@@ -83,7 +83,7 @@ class Converter extends HydratedCubit<ConverterState> {
         break;
     }
 
-    return amount == "--" ? "" : amount;
+    return amount;
   }
 
   String getSanitizedAmount(CurrentCurrency currentCurrency) {
@@ -129,6 +129,7 @@ class Converter extends HydratedCubit<ConverterState> {
 
   void digitPressed(DigitEnum digitEnum, CurrentCurrency currentCurrency) {
     String currencyAmount = getAmount(currentCurrency);
+    currencyAmount = currencyAmount == "0" ? "" : currencyAmount;
 
     switch (digitEnum) {
       case DigitEnum.ONE:
