@@ -19,8 +19,19 @@ class CurrencyWidget extends StatelessWidget {
     Widget currencyText({required String? currency}) => TextButton(
           onPressed: () {
             Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => InheritedProperties(
+              PageRouteBuilder(
+                transitionDuration: Duration(milliseconds: 500),
+                transitionsBuilder:
+                    (context, animation, animationTime, child) =>
+                        SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(1, 0),
+                    end: Offset.zero,
+                  ).animate(animation),
+                  child: child,
+                ),
+                pageBuilder: (context, animation, animationTime) =>
+                    InheritedProperties(
                   primaryColor: primaryColor,
                   accentColor: accentColor,
                   currentCurrency: currentCurrency,
@@ -43,8 +54,19 @@ class CurrencyWidget extends StatelessWidget {
             // Sanitize amount editor default currency amount text
 
             Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => InheritedProperties(
+              PageRouteBuilder(
+                transitionDuration: Duration(milliseconds: 500),
+                transitionsBuilder:
+                    (context, animation, animationTime, child) =>
+                        SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(0, 1),
+                    end: Offset.zero,
+                  ).animate(animation),
+                  child: child,
+                ),
+                pageBuilder: (context, animation, animationTime) =>
+                    InheritedProperties(
                   primaryColor: primaryColor,
                   accentColor: accentColor,
                   currentCurrency: currentCurrency,
