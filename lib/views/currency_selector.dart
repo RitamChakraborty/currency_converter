@@ -35,8 +35,13 @@ class CurrencySelector extends StatelessWidget {
       }).toList();
     }
 
-    return BlocBuilder<Converter, ConverterState>(
+    return BlocConsumer<Converter, ConverterState>(
       bloc: converter,
+      listener: (context, state) {
+        if (state.runtimeType == CurrencyChangedState) {
+          Navigator.of(context).pop();
+        }
+      },
       builder: (context, state) {
         return Scaffold(
           backgroundColor: primaryColor,
