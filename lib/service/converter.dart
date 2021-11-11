@@ -214,7 +214,7 @@ class Converter extends HydratedCubit<ConverterState> {
 
         emit(FetchingConversionState());
 
-        bool faliure = false;
+        bool failure = false;
         _currencyConverterRepository
             .convertCurrency(convertCurrencyRequest)
             .then((value) {
@@ -225,9 +225,9 @@ class Converter extends HydratedCubit<ConverterState> {
                     : CurrentCurrency.ONE,
                 value.toStringAsFixed(2));
           } else {
-            faliure = true;
+            failure = true;
           }
-        }).whenComplete(() => faliure
+        }).whenComplete(() => failure
                 ? emit(ErrorFetchingConversionState())
                 : emit(ConvertCurrencyState()));
       } catch (e) {
