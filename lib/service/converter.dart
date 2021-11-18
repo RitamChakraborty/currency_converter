@@ -11,13 +11,16 @@ class Converter extends HydratedCubit<ConverterState> {
   Converter() : super(InitialState());
 
   CurrencyEnum? _currencyOne = CurrencyEnum.INR;
+  CurrencyEnum? _currencyOneBackup = CurrencyEnum.INR;
   CurrencyEnum? _currencyTwo = CurrencyEnum.INR;
+  CurrencyEnum? _currencyTwoBackup = CurrencyEnum.INR;
   String _currencyOneAmount = "";
+  String _currencyOneAmountBackup = "";
   String _currencyTwoAmount = "";
+  String _currencyTwoAmountBackup = "";
   CurrentCurrency? _currentCurrency;
   final CurrencyConverterRepository _currencyConverterRepository =
       CurrencyConverterRepository();
-  bool _isAmountChanged = false;
 
   CurrencyEnum? get currencyOne => _currencyOne;
 
@@ -130,7 +133,6 @@ class Converter extends HydratedCubit<ConverterState> {
   }
 
   void digitPressed(DigitEnum digitEnum, CurrentCurrency currentCurrency) {
-    _isAmountChanged = true;
     String currencyAmount = getAmount(currentCurrency);
 
     switch (digitEnum) {
@@ -178,25 +180,37 @@ class Converter extends HydratedCubit<ConverterState> {
   }
 
   void convertCurrency(CurrentCurrency currentCurrency) {
-    if (!_isAmountChanged) {
-      return emit(ConvertCurrencyState());
-    }
-
-    _isAmountChanged = false;
     getSanitizedAmount(currentCurrency);
     _currentCurrency = currentCurrency;
     String? amountString;
     String? fromCode;
     String? toCode;
+    bool amountChanged = false;
+    bool currencyChanged = false;
 
     if (currentCurrency == CurrentCurrency.ONE) {
-      amountString = currencyOneAmount;
+      amountString = _currencyOneAmount;
       fromCode = _currencyOne?.code;
       toCode = _currencyTwo?.code;
+      amountChanged = amountString != _currencyOneAmountBackup;
+      currencyChanged = _currencyOne != _currencyOneBackup;
     } else if (currentCurrency == CurrentCurrency.TWO) {
-      amountString = currencyTwoAmount;
+      amountString = _currencyTwoAmount;
       fromCode = _currencyTwo?.code;
       toCode = _currencyOne?.code;
+      amountChanged = amountString != _currencyTwoAmountBackup;
+      currencyChanged = _currencyTwo != _currencyTwoBackup;
+    }
+
+    // Initialize the flags
+    _currencyOneAmountBackup = _currencyOneAmount;
+    _currencyTwoAmountBackup = _currencyTwoAmount;
+    _currencyOneBackup = _currencyOne;
+    _currencyTwoBackup = _currencyTwo;
+
+    // No change of amount or currency
+    if (!currencyChanged && !amountChanged) {
+      return emit(ConvertCurrencyState());
     }
 
     if (amountString != null && fromCode != null && toCode != null) {
@@ -210,6 +224,17 @@ class Converter extends HydratedCubit<ConverterState> {
                   ? CurrentCurrency.TWO
                   : CurrentCurrency.ONE,
               "0");
+
+          return emit(ConvertCurrencyState());
+        }
+
+        // Both currencies are same
+        if (fromCode == toCode) {
+          _setAmount(
+              currentCurrency == CurrentCurrency.ONE
+                  ? CurrentCurrency.TWO
+                  : CurrentCurrency.ONE,
+              amountString);
 
           return emit(ConvertCurrencyState());
         }
