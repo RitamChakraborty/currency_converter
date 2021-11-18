@@ -51,8 +51,6 @@ class CurrencyWidget extends StatelessWidget {
 
     Widget amountText({required String amount}) => TextButton(
           onPressed: () {
-            // Sanitize amount editor default currency amount text
-
             Navigator.of(context).push(
               PageRouteBuilder(
                 transitionDuration: Duration(milliseconds: 500),

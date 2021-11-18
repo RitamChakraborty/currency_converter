@@ -17,6 +17,7 @@ class Converter extends HydratedCubit<ConverterState> {
   CurrentCurrency? _currentCurrency;
   final CurrencyConverterRepository _currencyConverterRepository =
       CurrencyConverterRepository();
+  bool _isAmountChanged = false;
 
   CurrencyEnum? get currencyOne => _currencyOne;
 
@@ -129,6 +130,7 @@ class Converter extends HydratedCubit<ConverterState> {
   }
 
   void digitPressed(DigitEnum digitEnum, CurrentCurrency currentCurrency) {
+    _isAmountChanged = true;
     String currencyAmount = getAmount(currentCurrency);
 
     switch (digitEnum) {
@@ -176,6 +178,11 @@ class Converter extends HydratedCubit<ConverterState> {
   }
 
   void convertCurrency(CurrentCurrency currentCurrency) {
+    if (!_isAmountChanged) {
+      return emit(ConvertCurrencyState());
+    }
+
+    _isAmountChanged = false;
     getSanitizedAmount(currentCurrency);
     _currentCurrency = currentCurrency;
     String? amountString;
@@ -196,6 +203,7 @@ class Converter extends HydratedCubit<ConverterState> {
       try {
         double amount = double.parse(amountString);
 
+        // No amount added
         if (amount == 0) {
           _setAmount(
               currentCurrency == CurrentCurrency.ONE
@@ -228,8 +236,8 @@ class Converter extends HydratedCubit<ConverterState> {
             failure = true;
           }
         }).whenComplete(() => failure
-                ? emit(ErrorFetchingConversionState())
-                : emit(ConvertCurrencyState()));
+            ? emit(ErrorFetchingConversionState())
+            : emit(ConvertCurrencyState()));
       } catch (e) {
         print("Converter.convertCurrency() error : $e");
       }
