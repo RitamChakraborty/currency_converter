@@ -62,4 +62,17 @@ class CurrencyUtil {
 
     return null;
   }
+
+  ///Returns the position of the passed currency in enum
+  int currencyIndexFromCode(String? code) {
+    int i = 0;
+    for (CurrencyEnum currencyEnum in CurrencyEnum.values) {
+      if (currencyEnum.code == code) {
+        return i;
+      }
+      i++;
+    }
+
+    return -1;
+  }
 }
