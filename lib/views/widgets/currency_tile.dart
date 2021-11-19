@@ -6,17 +6,20 @@ class CurrencyTile extends StatelessWidget {
   final String _currencyCode;
   final bool _selected;
   final VoidCallback _onSelected;
+  final GlobalKey _globalKey;
 
   const CurrencyTile({
     required String currencyName,
     required String currencyCode,
     required bool selected,
     required VoidCallback onSelected,
+    required GlobalKey globalKey,
     Key? key,
   })  : this._currencyName = currencyName,
         this._currencyCode = currencyCode,
         this._selected = selected,
         this._onSelected = onSelected,
+        this._globalKey = globalKey,
         super(key: key);
 
   @override
@@ -40,6 +43,7 @@ class CurrencyTile extends StatelessWidget {
 
     return ListTile(
       title: title,
+      key: _globalKey,
       trailing: trailing,
       tileColor: _selected ? Colors.black12 : Colors.transparent,
       onTap: _onSelected,

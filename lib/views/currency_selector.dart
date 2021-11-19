@@ -16,13 +16,16 @@ class CurrencySelector extends StatefulWidget {
 }
 
 class _CurrencySelectorState extends State<CurrencySelector> {
-
   ///Scroll controller for list view
   ScrollController? _scrollController = new ScrollController();
+
+  List<GlobalKey> keys =
+      List.generate(CurrencyUtil.currencies.length, (index) => GlobalKey());
 
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       Converter converter = BlocProvider.of<Converter>(context);
       CurrentCurrency currentCurrency =
@@ -35,11 +38,21 @@ class _CurrencySelectorState extends State<CurrencySelector> {
       ///Currency not found
       if (index == -1) return;
 
-      ///Animate to offset
-      ///56 * index is used as it is the height of ListTile in flutter
       if (_scrollController != null && _scrollController!.hasClients) {
+        ///Finding height of listTile
+        ///Using 0th index to find the dynamic height
+        ///as the last current element maybe out of context
+        RenderBox box;
+        if (keys[0].currentContext != null) {
+          box = keys[0].currentContext!.findRenderObject() as RenderBox;
+        } else {
+          return;
+        }
+        double height = box.size.height;
+
+        ///Animate to offset
         _scrollController!.animateTo(
-            _scrollController!.initialScrollOffset + 56.0 * index,
+            _scrollController!.initialScrollOffset + height * index,
             duration: Duration(milliseconds: 500),
             curve: Curves.fastOutSlowIn);
       }
@@ -58,7 +71,10 @@ class _CurrencySelectorState extends State<CurrencySelector> {
       return CurrencyEnum.values.map((currency) {
         bool selected = currency == CurrencyUtil.currencyEnumFromCode(code);
 
+        int i = CurrencyUtil().currencyIndexFromCode(currency.code);
+
         return CurrencyTile(
+          globalKey: keys[i],
           currencyName: currency.currency!,
           currencyCode: currency.code!,
           selected: selected,
