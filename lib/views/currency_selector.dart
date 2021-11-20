@@ -7,6 +7,7 @@ import 'package:currency_converter/service/inherited_properties.dart';
 import 'package:currency_converter/views/widgets/currency_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class CurrencySelector extends StatefulWidget {
   const CurrencySelector({Key? key}) : super(key: key);
@@ -20,6 +21,9 @@ class _CurrencySelectorState extends State<CurrencySelector> {
   ScrollController? _scrollController = new ScrollController();
   List<GlobalKey> keys =
       List.generate(CurrencyUtil.currencies.length, (index) => GlobalKey());
+  final ItemScrollController itemScrollController = ItemScrollController();
+  final ItemPositionsListener itemPositionsListener =
+      ItemPositionsListener.create();
 
   @override
   void initState() {
@@ -37,26 +41,32 @@ class _CurrencySelectorState extends State<CurrencySelector> {
       ///Currency not found
       if (index == -1) return;
 
-      if (_scrollController != null && _scrollController!.hasClients) {
-        ///Finding height of listTile
-        ///Using 0th index to find the dynamic height
-        ///as the last current element maybe out of context
-        RenderBox box;
+      // if (_scrollController != null && _scrollController!.hasClients) {
+      //   ///Finding height of listTile
+      //   ///Using 0th index to find the dynamic height
+      //   ///as the last current element maybe out of context
+      //   RenderBox box;
+      //
+      //   if (keys[0].currentContext != null) {
+      //     box = keys[0].currentContext!.findRenderObject() as RenderBox;
+      //   } else {
+      //     return;
+      //   }
+      //
+      //   double height = box.size.height;
+      //
+      //   ///Animate to offset
+      //   _scrollController!.animateTo(
+      //       _scrollController!.initialScrollOffset + height * index,
+      //       duration: Duration(milliseconds: 500),
+      //       curve: Curves.fastOutSlowIn);
+      // }
 
-        if (keys[0].currentContext != null) {
-          box = keys[0].currentContext!.findRenderObject() as RenderBox;
-        } else {
-          return;
-        }
-
-        double height = box.size.height;
-
-        ///Animate to offset
-        _scrollController!.animateTo(
-            _scrollController!.initialScrollOffset + height * index,
-            duration: Duration(milliseconds: 500),
-            curve: Curves.fastOutSlowIn);
-      }
+      itemScrollController.scrollTo(
+        index: index,
+        duration: Duration(seconds: 2),
+        curve: Curves.fastOutSlowIn,
+      );
     });
   }
 
@@ -106,11 +116,12 @@ class _CurrencySelectorState extends State<CurrencySelector> {
             ),
           ),
           body: SafeArea(
-            child: ListView.builder(
-              controller: _scrollController,
+            child: ScrollablePositionedList.builder(
               itemCount: CurrencyEnum.values.length,
               itemBuilder: (context, index) =>
                   getCurrencies(converter.getCode(currentCurrency))[index],
+              itemScrollController: itemScrollController,
+              itemPositionsListener: itemPositionsListener,
             ),
           ),
         );
