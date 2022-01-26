@@ -2,7 +2,7 @@
     package="com.example.currency_converter">
 
     <application
-        android:label="currency_converter"
+        android:label="Currency Converter"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
