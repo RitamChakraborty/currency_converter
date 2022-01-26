@@ -25,4 +25,4 @@ The app is built following the [Stylish Currency Converter](https://dribbble.com
 ## Credit 
 
 - Thanks [Shatanik](https://github.com/shatanikmahanty) for helping with the auto scrolling feature
-- Thanks [Shuktika](https://github.com/Shuktika15) for creating the app icon, helping me decide the colors
+- Thanks [Shuktika](https://github.com/Shuktika15) for creating the app icon and helping me decide the colors
