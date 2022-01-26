@@ -6,6 +6,7 @@ import 'package:currency_converter/views/amount.dart';
 import 'package:currency_converter/views/currency_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class CurrencyWidget extends StatelessWidget {
   @override
@@ -49,7 +50,7 @@ class CurrencyWidget extends StatelessWidget {
           ),
         );
 
-    Widget amountText({required String amount}) => TextButton(
+    Widget amountText({required String amount, String? code}) => TextButton(
           onPressed: () {
             Navigator.of(context).push(
               PageRouteBuilder(
@@ -73,11 +74,25 @@ class CurrencyWidget extends StatelessWidget {
               ),
             );
           },
-          child: Text(
-            amount,
-            style: TextStyle(
-              color: accentColor,
-              fontSize: 64.0,
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: amount,
+                  style: TextStyle(
+                    color: accentColor,
+                    fontSize: 64.0,
+                  ),
+                ),
+                TextSpan(
+                  text: " " +
+                      NumberFormat.simpleCurrency(name: code).currencySymbol,
+                  style: TextStyle(
+                    color: accentColor.withOpacity(0.5),
+                    fontSize: 24.0,
+                  ),
+                ),
+              ],
             ),
           ),
         );
@@ -104,7 +119,7 @@ class CurrencyWidget extends StatelessWidget {
 
         List<Widget> children = [
           currencyText(currency: currency),
-          amountText(amount: amount),
+          amountText(amount: amount, code: code),
           currencyCodeText(code: code),
           SizedBox(height: 5),
         ];
