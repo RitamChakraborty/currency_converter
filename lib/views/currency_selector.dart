@@ -25,7 +25,7 @@ class _CurrencySelectorState extends State<CurrencySelector> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
       Converter converter = BlocProvider.of<Converter>(context);
       CurrentCurrency currentCurrency =
           InheritedProperties.of(context).currentCurrency;
@@ -51,11 +51,13 @@ class _CurrencySelectorState extends State<CurrencySelector> {
 
         double height = box.size.height;
 
-        ///Animate to offset
-        _scrollController!.animateTo(
-            _scrollController!.initialScrollOffset + height * index,
-            duration: Duration(milliseconds: 500),
-            curve: Curves.fastOutSlowIn);
+        await Future.delayed(Duration(milliseconds: 300)).then((value) => {
+              _scrollController!.animateTo(
+                _scrollController!.initialScrollOffset + height * index,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.fastOutSlowIn,
+              )
+            });
       }
     });
   }
