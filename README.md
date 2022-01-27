@@ -26,3 +26,5 @@ The app is built following the [Stylish Currency Converter](https://dribbble.com
 
 - Thanks [Shatanik](https://github.com/shatanikmahanty) for helping with the auto scrolling feature
 - Thanks [Shuktika](https://github.com/Shuktika15) for creating the app icon and helping me decide the colors
+
+Download the apk from [here](https://github.com/RitamChakraborty/currency_converter/releases/download/v2.0/app-release.apk).
